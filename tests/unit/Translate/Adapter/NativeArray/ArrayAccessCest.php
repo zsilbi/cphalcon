@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,39 +12,49 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Test\Fixtures\Traits\TranslateArrayTrait;
 use Phalcon\Translate\Adapter\NativeArray;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
-/**
- * Class ArrayAccessCest
- */
 class ArrayAccessCest
 {
-    use TranslateTrait;
+    use TranslateArrayTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: array access
      *
-     * @param UnitTester $I
-     *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikos Dimopoulos <nikos@phalcon.io>
      * @since  2014-09-12
      */
     public function translateAdapterNativeArrayWithArrayAccess(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - array access');
-        $language   = $this->getArrayConfig()['ru'];
-        $translator = new NativeArray(['content' => $language]);
 
-        $actual = isset($translator['Hello!']);
-        $I->assertTrue($actual);
+        $language = $this->getArrayConfig()['ru'];
 
-        $actual = isset($translator['Hi there!']);
-        $I->assertFalse($actual);
+        $translator = new NativeArray(
+            new InterpolatorFactory(),
+            [
+                'content' => $language,
+            ]
+        );
 
-        $expected = $language['Hello!'];
-        $actual   = $translator['Hello!'];
-        $I->assertEquals($expected, $actual);
+        $I->assertTrue(
+            isset(
+                $translator['Hello!']
+            )
+        );
+
+        $I->assertFalse(
+            isset(
+                $translator['Hi there!']
+            )
+        );
+
+        $I->assertEquals(
+            $language['Hello!'],
+            $translator['Hello!']
+        );
     }
 }

@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -19,11 +19,22 @@ class RobotsParts extends Model
     {
         $this->setConnectionService('dbOne');
 
-        $this->belongsTo('parts_id', Parts::class, 'id', [
-            'alias' => 'Part',
-        ]);
-        $this->belongsTo('robots_id', Robots::class, 'id', [
-            'alias' => 'Robot',
-        ]);
+        $this->belongsTo(
+            'parts_id',
+            Parts::class,
+            'id',
+            [
+                'alias' => 'Part',
+            ]
+        );
+
+        $this->belongsTo(
+            'robots_id',
+            Robots::class,
+            'id',
+            [
+                'alias' => 'Robot',
+            ]
+        );
     }
 }

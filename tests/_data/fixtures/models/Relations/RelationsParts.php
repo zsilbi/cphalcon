@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -17,15 +17,29 @@ class RelationsParts extends Model
 {
     public function initialize()
     {
-        $this->hasMany('id', RelationsRobotsParts::class, 'parts_id', [
-            'foreignKey' => [
-                'message' => 'Parts cannot be deleted because is referenced by a Robot',
-            ],
-        ]);
-    }
+        $this->setSource('parts');
 
-    public function getSource(): string
-    {
-        return 'parts';
+        $this->hasMany(
+            'id',
+            RelationsRobotsParts::class,
+            'parts_id',
+            [
+                'foreignKey' => [
+                    'message' => 'Parts cannot be deleted because is referenced by a Robot',
+                ],
+            ]
+        );
+
+        $this->hasOneThrough(
+            'id',
+            RelationsRobotsParts::class,
+            'parts_id',
+            'robots_id',
+            RelationsRobots::class,
+            'id',
+            [
+                'alias' => 'oneRobot'
+            ]
+        );
     }
 }

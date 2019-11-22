@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -41,7 +41,10 @@ class PhalconEscapeCssOptimizer extends OptimizerAbstract
         }
 
         if (count($expression['parameters']) != 1) {
-            throw new CompilerException("phalcon_escape_css only accepts one parameter", $expression);
+            throw new CompilerException(
+                "phalcon_escape_css only accepts one parameter",
+                $expression
+            );
         }
 
         /**
@@ -50,6 +53,7 @@ class PhalconEscapeCssOptimizer extends OptimizerAbstract
         $call->processExpectedReturn($context);
 
         $symbolVariable = $call->getSymbolVariable();
+
         if ($symbolVariable->getType() != 'variable') {
             throw new CompilerException(
                 "Returned values by functions can only be assigned to variant variables",
@@ -63,9 +67,20 @@ class PhalconEscapeCssOptimizer extends OptimizerAbstract
 
         $context->headersManager->add('kernel/filter');
 
-        $resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
-        $context->codePrinter->output('zephir_escape_css(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ');');
-        return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
-    }
+        $resolvedParams = $call->getResolvedParams(
+            $expression['parameters'],
+            $context,
+            $expression
+        );
 
+        $context->codePrinter->output(
+            'zephir_escape_css(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ');'
+        );
+
+        return new CompiledExpression(
+            'variable',
+            $symbolVariable->getRealName(),
+            $expression
+        );
+    }
 }

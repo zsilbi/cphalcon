@@ -17,12 +17,13 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -46,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_TextArea) {
  */
 PHP_METHOD(Phalcon_Html_Helper_TextArea, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
 	zval *text_param = NULL, *attributes_param = NULL, _0;
@@ -60,7 +62,7 @@ PHP_METHOD(Phalcon_Html_Helper_TextArea, __invoke) {
 	zephir_fetch_params(1, 1, 1, &text_param, &attributes_param);
 
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -79,7 +81,7 @@ PHP_METHOD(Phalcon_Html_Helper_TextArea, __invoke) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "textarea");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &_0, &text, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_0, &text, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 

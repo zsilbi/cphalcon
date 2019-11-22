@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -17,17 +17,11 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function uniqid;
 
-/**
- * Class ReadCest
- */
 class ReadCest
 {
     use DiTrait;
     use SessionTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -36,20 +30,21 @@ class ReadCest
     /**
      * Tests Phalcon\Session\Adapter\Noop :: write()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function sessionAdapterNoopRead(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - write()');
+
         $adapter = $this->getSessionNoop();
         $value   = uniqid();
+
         $adapter->write('test1', $value);
 
-        $expected = '';
-        $actual   = $adapter->read('test1');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '',
+            $adapter->read('test1')
+        );
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,31 +13,31 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Css;
 
 use Phalcon\Assets\Inline\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetAssetKeyCest
- */
 class GetAssetKeyCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Inline :: getAssetKey()
+     * Tests Phalcon\Assets\Inline\Css :: getAssetKey()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function assetsInlineGetAssetKey(UnitTester $I)
+    public function assetsInlineCssGetAssetKey(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getAssetKey()');
-        $content = 'p {color: #000099}';
-        $asset   = new Css($content);
+        $I->wantToTest('Assets\Inline\Css - getAssetKey()');
 
-        $expected = md5('css:' . $content);
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $content = 'p {color: #000099}';
+
+        $asset = new Css($content);
+
+        $expected = md5(
+            'css:' . $content
+        );
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 }

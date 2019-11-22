@@ -17,18 +17,11 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "phalcon/mvc/model/query/scanner.h"
 #include "phalcon/mvc/model/query/phql.h"
 
 
-/**
- * This file is part of the Phalcon Framework.
- *
- * (c) Phalcon Team <team@phalconphp.com>
- *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
- */
 /**
  * Phalcon\Mvc\Model\Query\Lang
  *
@@ -42,9 +35,13 @@
  * the same technology as SQLite. This technology provides a small in-memory
  * parser with a very low memory footprint that is also thread-safe.
  *
- * <code>
- * $intermediate = Phalcon\Mvc\Model\Query\Lang::parsePHQL("SELECT r.* FROM Robots r LIMIT 10");
- * </code>
+ * ```php
+ * use Phalcon\Mvc\Model\Query\Lang;
+ *
+ * $intermediate = Lang::parsePHQL(
+ *     "SELECT r.* FROM Robots r LIMIT 10"
+ * );
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {
 
@@ -59,6 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *phql_param = NULL;
 	zval phql;
@@ -70,7 +68,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 	zephir_fetch_params(1, 1, 0, &phql_param);
 
 	if (UNEXPECTED(Z_TYPE_P(phql_param) != IS_STRING && Z_TYPE_P(phql_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'phql' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'phql' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(phql_param) == IS_STRING)) {

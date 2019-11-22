@@ -15,7 +15,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -35,14 +35,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_FileInterface) {
 }
 
 /**
- * Returns the file size of the uploaded file
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getSize);
-
-/**
  * Returns the real name of the uploaded file
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getName);
+
+/**
+ * Gets the real mime type of the upload file using finfo
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getRealType);
+
+/**
+ * Returns the file size of the uploaded file
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getSize);
 
 /**
  * Returns the temporal name of the uploaded file
@@ -54,11 +59,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getTempName);
  * This mime type is not completely secure, use getRealType() instead
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getType);
-
-/**
- * Gets the real mime type of the upload file using finfo
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getRealType);
 
 /**
  * Move the temporary file to a destination

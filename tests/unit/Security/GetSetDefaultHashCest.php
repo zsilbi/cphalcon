@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,20 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
 use Phalcon\Security;
+use UnitTester;
 
-/**
- * Class GetDefaultHashCest
- */
 class GetSetDefaultHashCest
 {
     /**
      * Tests Phalcon\Security :: getDefaultHash() and setDefaultHash()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function securityGetSetDefaultHash(UnitTester $I)
@@ -34,22 +29,31 @@ class GetSetDefaultHashCest
 
         $security = new Security();
 
-        $expected = null;
-        $actual   = $security->getDefaultHash();
-        $I->assertEquals($expected, $actual);
 
-        $expected = 16;
-        $actual   = $security->getRandomBytes();
-        $I->assertEquals($expected, $actual);
+        $I->assertNull(
+            $security->getDefaultHash()
+        );
+
+
+        $I->assertEquals(
+            16,
+            $security->getRandomBytes()
+        );
+
 
         $security->setDefaultHash(1);
-        $expected = 1;
-        $actual   = $security->getDefaultHash();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            1,
+            $security->getDefaultHash()
+        );
+
 
         $security->setRandomBytes(22);
-        $expected = 22;
-        $actual   = $security->getRandomBytes();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            22,
+            $security->getRandomBytes()
+        );
     }
 }

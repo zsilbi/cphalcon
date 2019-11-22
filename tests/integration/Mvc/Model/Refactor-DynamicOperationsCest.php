@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -11,8 +11,9 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use DateTime;
 use IntegrationTester;
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Events\Event;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -45,6 +46,11 @@ class DynamicOperationsCest
         $connection->setEventsManager($manager);
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests dynamic update create then update
      *
@@ -61,12 +67,12 @@ class DynamicOperationsCest
         $robots->text     = 'text';
 
         $I->assertTrue($robots->create());
-        $I->assertNull($robots->year);
+        $I->assertNull($robots->deleted);
 
-        $robots->year = date('Y');
+        $robots->deleted = date('Y-m-d');
 
         $I->assertTrue($robots->update());
-        $I->assertEquals(date('Y'), $robots->year);
+        $I->assertEquals(date('Y-m-d'), $robots->deleted);
 
         $I->assertTrue($robots->delete());
     }
@@ -74,7 +80,7 @@ class DynamicOperationsCest
     /**
      * Tests dynamic update with default use case.
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-01
      */
     public function shouldWorkUsingDynamicUpdate(IntegrationTester $I)
@@ -113,7 +119,7 @@ class DynamicOperationsCest
     /**
      * Tests dynamic update with renamed model fields.
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-01
      */
     public function shouldWorkUsingDynamicUpdateForRenamedModelFields(IntegrationTester $I)
@@ -177,7 +183,7 @@ class DynamicOperationsCest
         $robot           = new Robots();
         $robot->name     = 'Test';
         $robot->type     = 'mechanical';
-        $robot->datetime = (new \DateTime())->format('Y-m-d');
+        $robot->datetime = (new DateTime())->format('Y-m-d');
         $robot->text     = 'text';
         $robot->year     = 1;
         $robot->save();

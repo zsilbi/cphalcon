@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -23,9 +23,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter and no
      * separator
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterNoSeparator(UnitTester $I)
@@ -33,6 +31,7 @@ class FriendlyTitleCest extends TagSetup
         $options  = 'This is a Test';
         $expected = 'this-is-a-test';
         $actual   = Tag::friendlyTitle($options);
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -40,9 +39,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter and a
      * separator
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterSeparator(UnitTester $I)
@@ -57,9 +54,7 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter lowercase
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterLowercase(UnitTester $I)
@@ -74,9 +69,7 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter uppercase
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterUppercase(UnitTester $I)
@@ -92,9 +85,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter with
      * replace as string
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterReplaceString(UnitTester $I)
@@ -110,9 +101,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter with
      * replace as array
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterReplaceArray(UnitTester $I)
@@ -132,70 +121,69 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - special characters and escaping
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleWithSpecialCharactersAndEscaping(UnitTester $I)
     {
-        $options  = "Mess'd up --text-- just (to) stress /test/ ?our! "
-            . "`little` \\clean\\ url fun.ction!?-->";
-        $expected = 'messd-up-text-just-to-stress-test-our-little-'
-            . 'clean-url-function';
-        $actual   = Tag::friendlyTitle($options);
+        $options = "Mess'd up --text-- just (to) stress /test/ ?our! "
+            . '`little` \\clean\\ url fun.ction!?-->';
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'messd-up-text-just-to-stress-test-our-little-clean-url-function',
+            Tag::friendlyTitle($options)
+        );
     }
 
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - accented characters and replace
      * string
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceString(UnitTester $I)
     {
-        $options  = "Perché l'erba è verde?";
-        $expected = 'perche-l-erba-e-verde';
-        $actual   = Tag::friendlyTitle($options, "-", true, "'");
+        $options = "Perché l'erba è verde?";
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'perche-l-erba-e-verde',
+            Tag::friendlyTitle(
+                $options,
+                '-',
+                true,
+                "'"
+            )
+        );
     }
 
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - accented characters and replace
      * array
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceArray(UnitTester $I)
     {
-        $options  = "Perché l'erba è verde?";
-        $expected = 'P_rch_l_rb_v_rd';
-        $actual   = Tag::friendlyTitle(
-            $options,
-            "_",
-            false,
-            ['e', 'a']
-        );
+        $options = "Perché l'erba è verde?";
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'P_rch_l_rb_v_rd',
+            Tag::friendlyTitle(
+                $options,
+                '_',
+                false,
+                ['e', 'a']
+            )
+        );
     }
 
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter with
      * replace as boolean
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterReplaceBoolean(UnitTester $I)
@@ -204,9 +192,11 @@ class FriendlyTitleCest extends TagSetup
             new Exception('Parameter replace must be an array or a string'),
             function () {
                 Tag::resetInput();
+
                 $options  = 'This is a Test';
                 $expected = 't_s_s_a_test';
-                $actual   = Tag::friendlyTitle($options, '_', true, true);
+
+                $actual = Tag::friendlyTitle($options, '_', true, true);
             }
         );
     }

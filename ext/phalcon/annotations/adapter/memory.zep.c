@@ -24,25 +24,23 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Annotations\Adapter\Memory
- *
- * Stores the parsed annotations in memory. This adapter is the suitable development/testing
+ * Stores the parsed annotations in memory. This adapter is the suitable
+ * development/testing
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, phalcon, annotations_adapter_memory, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, phalcon, annotations_adapter_memory, phalcon_annotations_adapter_abstractadapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
 
 	/**
-	 * Data
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("data"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -53,6 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, data, _0, _1;
 	zval key;
 	zval *this_ptr = getThis();
@@ -66,7 +65,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -77,13 +76,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("_data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_fast_strtolower(&_1, &key);
-	if (zephir_array_isset_fetch(&data, &_0, &_1, 1 TSRMLS_CC)) {
-		RETURN_CTOR(&data);
+	if (!(zephir_array_isset_fetch(&data, &_0, &_1, 1))) {
+		RETURN_MM_BOOL(0);
 	}
-	RETURN_MM_BOOL(0);
+	RETURN_CTOR(&data);
 
 }
 
@@ -92,6 +91,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, *data, data_sub, lowercasedKey;
 	zval key;
 	zval *this_ptr = getThis();
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
 	ZEPHIR_INIT_VAR(&lowercasedKey);
 	zephir_fast_strtolower(&lowercasedKey, &key);
-	zephir_update_property_array(this_ptr, SL("_data"), &lowercasedKey, data);
+	zephir_update_property_array(this_ptr, SL("data"), &lowercasedKey, data);
 	ZEPHIR_MM_RESTORE();
 
 }

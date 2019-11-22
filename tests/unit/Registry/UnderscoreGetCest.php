@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -15,35 +15,29 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class UnderscoreGetCest
- *
- * @package Phalcon\Test\Unit\Registry
- */
 class UnderscoreGetCest
 {
     /**
-     * Tests Phalcon\Registry :: __get()
+     * Unit Tests Phalcon\Registry :: __get()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function registryUnderscoreGet(UnitTester $I)
     {
         $I->wantToTest('Registry - __get()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
-        $registry->offsetSet('two', 2);
-        $registry->offsetSet('three', 3);
 
-        $expected = 3;
-        $actual   = $registry->three;
-        $I->assertEquals($expected, $actual);
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
 
-        $expected = 2;
-        $actual   = $registry['two'];
-        $I->assertEquals($expected, $actual);
+        $registry = new Registry($data);
+
+        $I->assertEquals(
+            'four',
+            $registry->three
+        );
     }
 }

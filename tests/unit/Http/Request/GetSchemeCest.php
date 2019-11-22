@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,41 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-/**
- * Class GetSchemeCest
- */
-class GetSchemeCest
+class GetSchemeCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getScheme()
+     * Tests getScheme default
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-04
      */
-    public function httpRequestGetScheme(UnitTester $I)
+    public function testHttpRequestGetSchemeDefault(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - getScheme()');
-        $I->skipTest('Need implementation');
+        $request = $this->getRequestObject();
+
+        $I->assertEquals(
+            'http',
+            $request->getScheme()
+        );
+    }
+
+    /**
+     * Tests getScheme with HTTPS
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-04
+     */
+    public function testHttpRequestGetScheme(UnitTester $I)
+    {
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('HTTPS', 'on');
+        $actual = $request->getScheme();
+        $this->unsetServerVar('HTTPS');
+
+        $I->assertEquals('https', $actual);
     }
 }

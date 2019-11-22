@@ -11,10 +11,10 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "4.0.0-alpha.3"
+#define PHP_PHALCON_VERSION     "4.0.0-rc.3"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.11.11-b661a58"
+#define PHP_PHALCON_ZEPVERSION  "0.12.10-fedc314"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -23,38 +23,37 @@ typedef struct _zephir_struct_db {
 } zephir_struct_db;
 
 typedef struct _zephir_struct_orm { 
-	HashTable*  parser_cache;
 	HashTable*  ast_cache;
 	int cache_level;
-	int unique_cache_id;
-	zend_bool events;
-	zend_bool virtual_foreign_keys;
-	zend_bool column_renaming;
-	zend_bool not_null_validations;
-	zend_bool exception_on_failed_save;
-	zend_bool enable_literals;
-	zend_bool late_state_binding;
-	zend_bool enable_implicit_joins;
-	zend_bool cast_on_hydrate;
-	zend_bool ignore_unknown_columns;
-	zend_bool update_snapshot_on_save;
-	zend_bool disable_assign_setters;
 	zend_bool case_insensitive_column_map;
+	zend_bool cast_last_insert_id_to_int;
+	zend_bool cast_on_hydrate;
+	zend_bool column_renaming;
+	zend_bool disable_assign_setters;
+	zend_bool enable_implicit_joins;
+	zend_bool enable_literals;
+	zend_bool events;
+	zend_bool exception_on_failed_save;
+	zend_bool exception_on_failed_metadata_save;
+	zend_bool ignore_unknown_columns;
+	zend_bool late_state_binding;
+	zend_bool not_null_validations;
+	HashTable*  parser_cache;
+	int resultset_prefetch_records;
+	int unique_cache_id;
+	zend_bool update_snapshot_on_save;
+	zend_bool virtual_foreign_keys;
 } zephir_struct_orm;
+
+typedef struct _zephir_struct_warning { 
+	zend_bool enable;
+} zephir_struct_warning;
 
 
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	int initialized;
-
-	/* Memory */
-	zephir_memory_entry *start_memory; /**< The first preallocated frame */
-	zephir_memory_entry *end_memory; /**< The last preallocate frame */
-	zephir_memory_entry *active_memory; /**< The current memory frame */
-
-	/* Virtual Symbol Tables */
-	zephir_symbol_table *active_symbol_table;
 
 	/** Function cache */
 	HashTable *fcache;
@@ -71,6 +70,8 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	zephir_struct_db db;
 
 	zephir_struct_orm orm;
+
+	zephir_struct_warning warning;
 
 
 ZEND_END_MODULE_GLOBALS(phalcon)

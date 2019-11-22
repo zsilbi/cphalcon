@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,43 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Codeception\Example;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-/**
- * Class HasFilesCest
- */
-class HasFilesCest
+class HasFilesCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: hasFiles()
+     * Tests Request::hasFiles
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2016-01-31
      */
-    public function httpRequestHasFiles(UnitTester $I)
+    public function testRequestHasFiles(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - hasFiles()');
-        $I->skipTest('Need implementation');
+        $existing = $_FILES ?? [];
+
+        $request = $this->getRequestObject();
+        $_FILES   = [];
+
+        $I->assertFalse(
+            $request->hasFiles()
+        );
+
+        $_FILES = [
+            'test' => [
+                'name'     => 'name',
+                'type'     => 'text/plain',
+                'size'     => 1,
+                'tmp_name' => 'tmp_name',
+                'error'    => 0,
+            ],
+        ];
+
+        $I->assertTrue(
+            $request->hasFiles()
+        );
+
+        $_FILES = $existing;
     }
 }

@@ -15,7 +15,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -108,13 +108,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setHeader);
 /**
  * Sets HTTP response body. The parameter is automatically converted to JSON
  *
- *<code>
+ *```php
  * $response->setJsonContent(
  *     [
  *         "status" => "OK",
  *     ]
  * );
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setJsonContent);
 

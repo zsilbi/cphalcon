@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,19 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
 use Phalcon\Security;
 use Phalcon\Security\Random;
+use UnitTester;
 
-/**
- * Class GetRandomCest
- */
 class GetRandomCest
 {
     /**
      * Tests Phalcon\Security :: getRandom()
-     *
-     * @param UnitTester $I
      *
      * @author Ruud Boon
      * @since  2018-11-13
@@ -34,9 +29,12 @@ class GetRandomCest
         $I->wantToTest('Security - getRandom()');
 
         $security = new Security();
+
         $random = $security->getRandom();
 
-        $class = Random::class;
-        $I->assertInstanceOf($class, $random);
+        $I->assertInstanceOf(
+            Random::class,
+            $random
+        );
     }
 }

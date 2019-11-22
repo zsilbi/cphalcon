@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,50 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetTargetUriCest
- */
 class GetTargetUriCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - css local
+     * Tests Phalcon\Assets\Asset\Css :: getTargetUri()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetCssGetTargetUriLocal(UnitTester $I)
+    public function assetsAssetCssGetTargetUri(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getTargetUri() - css local');
-        $asset = new Css('css/docs.css');
+        $I->wantToTest('Assets\Asset\Css - getTargetUri()');
+
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
 
         $expected = '/phalcon/path';
+
         $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - css remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssGetTargetUriRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getTargetUri() - css remote');
-        $asset = new Css('https://phalcon.ld/css/docs.css', false);
-
-        $expected = '/phalcon/path';
-        $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+        return [
+            [
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+        ];
     }
 }

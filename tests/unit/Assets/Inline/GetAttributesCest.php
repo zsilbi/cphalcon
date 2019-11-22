@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,52 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline;
 
+use Codeception\Example;
 use Phalcon\Assets\Inline;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetAttributesCest
- */
 class GetAttributesCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Inline :: getAttributes() - css
+     * Tests Phalcon\Assets\Inline :: getAttributes()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsInlineGetAttributesCss(UnitTester $I)
+    public function assetsInlineGetAttributes(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Inline - getAttributes() - css');
-        $attributes = ['data-key' => 'phalcon'];
-        $content    = 'p {color: #000099}';
-        $asset      = new Inline('css', $content, true, $attributes);
+        $I->wantToTest('Assets\Inline - getAttributes()');
 
-        $expected = $attributes;
-        $this->assetGetAttributes($I, $asset, $expected);
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset = new Inline(
+            $example['type'],
+            $example['content'],
+            true,
+            $attributes
+        );
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Inline :: getAttributes() - js
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsInlineGetAttributesJs(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Inline - getAttributes() - js');
-        $attributes = ['data-key' => 'phalcon'];
-        $content    = '<script>alert("Hello");</script>';
-        $asset      = new Inline('js', $content, true, $attributes);
-
-        $expected = $attributes;
-        $this->assetGetAttributes($I, $asset, $expected);
+        return [
+            [
+                'type'    => 'css',
+                'content' => 'p {color: #000099}',
+            ],
+            [
+                'type'    => 'js',
+                'content' => '<script>alert("Hello");</script>',
+            ],
+        ];
     }
 }

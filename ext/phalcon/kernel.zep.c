@@ -16,19 +16,18 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Kernel
- *
  * This class allows to change the internal behavior of the framework in runtime
  */
 ZEPHIR_INIT_CLASS(Phalcon_Kernel) {
@@ -47,6 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Kernel) {
  */
 PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL;
 	zval key;
 	zval *this_ptr = getThis();
@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -70,13 +70,13 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 
 	
 
-		{
+        {
 
-		RETURN_MM_NULL();
+        RETURN_MM_NULL();
 
-		}
+        }
 
-		
+        
 	ZEPHIR_MM_RESTORE();
 
 }

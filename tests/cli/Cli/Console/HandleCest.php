@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,392 +13,531 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Exception;
 use Phalcon\Events\Event;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function dataFolder;
+use Phalcon\Test\Fixtures\Tasks\Issue787Task;
+use Phalcon\Test\Modules\Backend\Module as BackendModule;
+use Phalcon\Test\Modules\Frontend\Module as FrontendModule;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Cli\Console as CliConsole;
+use Phalcon\Cli\Console\Exception as ConsoleException;
+use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 
-/**
- * Class HandleCest
- */
 class HandleCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Cli\Console :: handle()
      *
-     * @param CliTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function cliConsoleHandle(CliTester $I)
+    public function handle(CliTester $I)
     {
-        require_once dataFolder('fixtures/tasks/MainTask.php');
-        require_once dataFolder('fixtures/tasks/EchoTask.php');
         $I->wantToTest("Cli\Console - handle()");
-        $container = $this->newCliFactoryDefault();
+
+        $container = new DiFactoryDefault();
+
         $container->set(
             'data',
             function () {
-                return "data";
+                return 'data';
             }
         );
 
-        $console = $this->newCliConsole();
-        $console->setDI($container);
+        $console = new CliConsole($container);
+
         $dispatcher = $console->getDI()->getShared('dispatcher');
+        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
 
         $console->handle([]);
-        $expected = 'main';
-        $actual = $dispatcher->getTaskName();
-        $I->assertEquals($expected, $actual);
-        $expected = 'main';
-        $actual = $dispatcher->getActionName();
-        $I->assertEquals($expected, $actual);
-        $expected = [];
-        $actual = $dispatcher->getParams();
-        $I->assertEquals($expected, $actual);
-        $expected = 'mainAction';
-        $actual = $dispatcher->getReturnedValue();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            [],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'mainAction',
+            $dispatcher->getReturnedValue()
+        );
 
         $console->handle(
             [
                 'task' => 'echo',
             ]
         );
-        $expected = 'echo';
-        $actual = $dispatcher->getTaskName();
-        $I->assertEquals($expected, $actual);
-        $expected = 'main';
-        $actual = $dispatcher->getActionName();
-        $I->assertEquals($expected, $actual);
-        $expected = [];
-        $actual = $dispatcher->getParams();
-        $I->assertEquals($expected, $actual);
-        $expected = 'echoMainAction';
-        $actual = $dispatcher->getReturnedValue();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'echo',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            [],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'echoMainAction',
+            $dispatcher->getReturnedValue()
+        );
 
         $console->handle(
             [
-                'task' => 'main',
+                'task'   => 'main',
                 'action' => 'hello',
             ]
         );
-        $expected = 'main';
-        $actual = $dispatcher->getTaskName();
-        $I->assertEquals($expected, $actual);
-        $expected = 'hello';
-        $actual = $dispatcher->getActionName();
-        $I->assertEquals($expected, $actual);
-        $expected = [];
-        $actual = $dispatcher->getParams();
-        $I->assertEquals($expected, $actual);
-        $expected = 'Hello !';
-        $actual = $dispatcher->getReturnedValue();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
+            'hello',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            [],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'Hello !',
+            $dispatcher->getReturnedValue()
+        );
 
         $console->handle(
             [
-                'task' => 'main',
+                'task'   => 'main',
                 'action' => 'hello',
                 'World',
                 '######',
             ]
         );
-        $expected = 'main';
-        $actual = $dispatcher->getTaskName();
-        $I->assertEquals($expected, $actual);
-        $expected = 'hello';
-        $actual = $dispatcher->getActionName();
-        $I->assertEquals($expected, $actual);
-        $expected = ['World', '######'];
-        $actual = $dispatcher->getParams();
-        $I->assertEquals($expected, $actual);
-        $expected = 'Hello World######';
-        $actual = $dispatcher->getReturnedValue();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
+            'hello',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            ['World', '######'],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'Hello World######',
+            $dispatcher->getReturnedValue()
+        );
     }
 
     /**
-     * Tests Phalcon\Cli\Console :: handle() - Modules
-     *
-     * @param CliTester $I
+     * Tests Phalcon\Cli\Console :: handle() - BackendModules
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
-    public function cliConsoleHandleModule(CliTester $I)
+    public function handleModule(CliTester $I)
     {
-        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
-        $I->wantToTest("Cli\Console - handle() - Modules");
-        $console = $this->newCliConsole();
-        $this->setNewCliFactoryDefault();
-        $console->setDI($this->container);
+        $I->wantToTest("Cli\Console - handle() - BackendModules");
+
+        $console = new CliConsole(new DiFactoryDefault());
+
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path" => dataFolder("/fixtures/modules/frontend/Module.php"),
+                'frontend' => [
+                    'className' => FrontendModule::class,
+                    'path'      => dataDir('/fixtures/modules/frontend/Module.php'),
                 ],
-                "backend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path" => dataFolder("fixtures/modules/backend/Module.php"),
-                ]
+                'backend'  => [
+                    'className' => BackendModule::class,
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
+                ],
             ]
         );
-        $console->dispatcher->setNamespaceName("Phalcon\\Test\\Modules\\Backend\\Tasks");
 
-        $I->expectThrowable(new \Exception("Task Run"), function () use ($console) {
-            $console->handle([
-                "module" => "backend",
-                "action" => "throw"
-            ]);
-        });
         $dispatcher = $console->dispatcher;
-        $expected = 'main';
-        $actual = $dispatcher->getTaskName();
-        $I->assertEquals($expected, $actual);
-        $expected = 'throw';
-        $actual = $dispatcher->getActionName();
-        $I->assertEquals($expected, $actual);
-        $expected = 'backend';
-        $actual = $dispatcher->getModuleName();
-        $I->assertEquals($expected, $actual);
+        $dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+
+        $I->expectThrowable(
+            new Exception('Task Run'),
+            function () use ($console) {
+                $console->handle(
+                    [
+                        'module' => 'backend',
+                        'action' => 'throw',
+                    ]
+                );
+            }
+        );
+
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
+            'throw',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            'backend',
+            $dispatcher->getModuleName()
+        );
     }
 
     /**
      * Tests Phalcon\Cli\Console :: handle()
      *
-     * @param CliTester $I
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
-    public function cliConsoleHandleEventBoot(CliTester $I)
+    public function handleEventBoot(CliTester $I)
     {
         $I->wantToTest("Cli\Console - handle() - Events - console:boot");
-        $this->setNewCliFactoryDefault();
-        $this->setDiEventsManager();
-        $eventsManager = $this->container->getShared('eventsManager');
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $eventsManager = $console->eventsManager;
+
         $eventsManager->attach(
             'console:boot',
             function (Event $event, $console) {
-                throw new \Exception("Console Boot Event Fired");
+                throw new Exception('Console Boot Event Fired');
             }
         );
-        $console = $this->newCliConsole();
-        $console->setDI($this->container);
-        $console->setEventsManager($eventsManager);
-        $I->expectThrowable(new \Exception("Console Boot Event Fired"), function () use ($console) {
-            $console->handle([]);
-        });
+
+        $I->expectThrowable(
+            new Exception('Console Boot Event Fired'),
+            function () use ($console) {
+                $console->handle(
+                    []
+                );
+            }
+        );
     }
 
     /**
      * Tests Phalcon\Cli\Console :: handle()
      *
-     * @param CliTester $I
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
-    public function cliConsoleHandleEventBeforeStartModule(CliTester $I)
+    public function handleEventBeforeStartModule(CliTester $I)
     {
-        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
         $I->wantToTest("Cli\Console - handle() - Events - console:beforeStartModule");
-        $this->setNewCliFactoryDefault();
-        $this->setDiEventsManager();
-        $eventsManager = $this->container->getShared('eventsManager');
-        $console = $this->newCliConsole();
-        $console->setDI($this->container);
-        $console->setEventsManager($eventsManager);
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $eventsManager = $console->eventsManager;
+
         $eventsManager->attach(
             'console:beforeStartModule',
             function (Event $event, $console, $moduleName) {
-                throw new \Exception("Console Before Start Module Event Fired");
+                throw new Exception('Console Before Start BackendModule Event Fired');
             }
         );
+
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path" => dataFolder("fixtures/modules/frontend/Module.php"),
+                'frontend' => [
+                    'className' => FrontendModule::class,
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
-                "backend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module"
-                ]
+                'backend'  => [
+                    'className' => BackendModule::class,
+                ],
             ]
         );
-        $console->dispatcher->setNamespaceName("Phalcon\\Test\\Modules\\Backend\\Tasks");
-        $I->expectThrowable(new \Exception("Console Before Start Module Event Fired"), function () use ($console) {
-            $console->handle([
-                "module" => "backend",
-                "action" => "noop"
-            ]);
-        });
+
+        $console->dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+
+        $I->expectThrowable(
+            new Exception('Console Before Start BackendModule Event Fired'),
+            function () use ($console) {
+                $console->handle(
+                    [
+                        'module' => 'backend',
+                        'action' => 'noop',
+                    ]
+                );
+            }
+        );
     }
 
     /**
      * Tests Phalcon\Cli\Console :: handle()
      *
-     * @param CliTester $I
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
-    public function cliConsoleHandleEventAfterStartModule(CliTester $I)
+    public function handleEventAfterStartModule(CliTester $I)
     {
-        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
         $I->wantToTest("Cli\Console - handle() - Events - console:afterStartModule");
-        $this->setNewCliFactoryDefault();
-        $this->setDiEventsManager();
-        $eventsManager = $this->container->getShared('eventsManager');
-        $console = $this->newCliConsole();
-        $console->setDI($this->container);
-        $console->setEventsManager($eventsManager);
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $eventsManager = $console->eventsManager;
+
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path" => dataFolder("fixtures/modules/frontend/Module.php"),
+                'frontend' => [
+                    'className' => FrontendModule::class,
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
-                "backend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module"
-                ]
+                'backend'  => [
+                    'className' => BackendModule::class,
+                ],
             ]
         );
+
+        $console->dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+
         $eventsManager->attach(
             'console:afterStartModule',
             function (Event $event, $console, $moduleObject) {
-                throw new \Exception("Console After Start Module Event Fired");
+                throw new Exception('Console After Start BackendModule Event Fired');
             }
         );
-        $I->expectThrowable(new \Exception("Console After Start Module Event Fired"), function () use ($console) {
-            $console->handle([
-                "module" => "backend",
-                "action" => "noop"
-            ]);
-        });
+
+        $I->expectThrowable(
+            new Exception('Console After Start BackendModule Event Fired'),
+            function () use ($console) {
+                $console->handle(
+                    [
+                        'module' => 'backend',
+                        'action' => 'noop',
+                    ]
+                );
+            }
+        );
     }
 
     /**
      * Tests Phalcon\Cli\Console :: handle()
      *
-     * @param CliTester $I
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
-    public function cliConsoleHandleEventBeforeHandleTask(CliTester $I)
+    public function handleEventBeforeHandleTask(CliTester $I)
     {
-        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
         $I->wantToTest("Cli\Console - handle() - Events - console:beforeHandleTask");
-        $this->setNewCliFactoryDefault();
-        $this->setDiEventsManager();
-        $eventsManager = $this->container->getShared('eventsManager');
-        $console = $this->newCliConsole();
-        $console->setDI($this->container);
-        $console->setEventsManager($eventsManager);
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $eventsManager = $console->eventsManager;
 
         $eventsManager->attach(
             'console:beforeHandleTask',
             function (Event $event, $console, $moduleObject) {
-                throw new \Exception("Console Before Handle Task Event Fired");
+                throw new Exception('Console Before Handle Task Event Fired');
             }
         );
-        $I->expectThrowable(new \Exception("Console Before Handle Task Event Fired"), function () use ($console) {
-            $console->handle([]);
-        });
+
+        $I->expectThrowable(
+            new Exception('Console Before Handle Task Event Fired'),
+            function () use ($console) {
+                $console->handle([]);
+            }
+        );
     }
+
     /**
      * Tests Phalcon\Cli\Console :: handle()
      *
-     * @param CliTester $I
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
-    public function cliConsoleHandleEventAfterHandleTask(CliTester $I)
+    public function handleEventAfterHandleTask(CliTester $I)
     {
-        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
         $I->wantToTest("Cli\Console - handle() - Events - console:afterHandleTask");
-        $this->setNewCliFactoryDefault();
-        $this->setDiEventsManager();
-        $eventsManager = $this->container->getShared('eventsManager');
-        $console = $this->newCliConsole();
-        $console->setDI($this->container);
-        $console->setEventsManager($eventsManager);
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $eventsManager = $console->eventsManager;
+
         $eventsManager->attach(
             'console:afterHandleTask',
             function (Event $event, $console, $moduleObject) {
-                throw new \Exception("Console After Handle Task Event Fired");
+                throw new Exception('Console After Handle Task Event Fired');
             }
         );
+
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path" => dataFolder("fixtures/modules/frontend/Module.php"),
+                'frontend' => [
+                    'className' => FrontendModule::class,
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
-                "backend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module"
-                ]
+                'backend'  => [
+                    'className' => BackendModule::class,
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
+                ],
             ]
         );
-        $I->expectThrowable(new \Exception("Console After Handle Task Event Fired"), function () use ($console) {
-            $console->handle([
-                "module" => "backend",
-                "action" => "noop"
-            ]);
-        });
+        $console->dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+
+        $I->expectThrowable(
+            new Exception(
+                'Console After Handle Task Event Fired'
+            ),
+            function () use ($console) {
+                $console->handle(
+                    [
+                        'module' => 'backend',
+                        'action' => 'noop',
+                    ]
+                );
+            }
+        );
     }
 
     /**
      * Tests Phalcon\Cli\Console :: handle() - Issue #13724
-     * Handling a module twice causes class already exists error #13724
+     * Handling a BackendModule twice causes class already exists error #13724
      * <https://github.com/phalcon/cphalcon/issues/13724>
      *
-     * @param CliTester $I
-     *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2019-01-06
+     * @since  2019-01-06
      */
-    public function cliConsoleHandle13724(CliTester $I)
+    public function handle13724(CliTester $I)
     {
-        require_once dataFolder('fixtures/modules/backend/tasks/MainTask.php');
         $I->wantToTest("Cli\Console - handle() - Issue #13724");
-        $console = $this->newCliConsole();
-        $this->setNewCliFactoryDefault();
-        $console->setDI($this->container);
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $dispatcher = $console->dispatcher;
+        $dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+
         $console->registerModules(
             [
-                "backend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path" => dataFolder("fixtures/modules/backend/Module.php"),
-                ]
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
+                ],
             ]
         );
-        $console->handle([
-            "module"=>"backend",
-            "action" => "noop"
-        ]);
-        $console = $this->newCliConsole();
-        $this->setNewCliFactoryDefault();
-        $console->setDI($this->container);
+
+        $console->handle(
+            [
+                'module' => 'backend',
+                'action' => 'noop',
+            ]
+        );
+
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $dispatcher = $console->dispatcher;
+        $dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+
         $console->registerModules(
             [
-                "backend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path" => dataFolder("fixtures/modules/backend/Module.php"),
-                ]
+                'backend' => [
+                    'className' => BackendModule::class,
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
+                ],
             ]
         );
-        $console->handle([
-            "module"=>"backend",
-            "action" => "noop"
-        ]);
+
+        $console->handle(
+            [
+                'module' => 'backend',
+                'action' => 'noop',
+            ]
+        );
+    }
+
+    public function shouldThrowExceptionWhenModuleDoesNotExists(CliTester $I)
+    {
+        $I->wantToTest("Cli\Console - handle() - Throw exception when module does not exists");
+
+        $console = new CliConsole(new DiFactoryDefault());
+        $I->expectThrowable(
+            new ConsoleException(
+                "Module 'devtools' isn't registered in the console container"
+            ),
+            function () use ($console) {
+                // testing module
+                $console->handle(
+                    [
+                        'module' => 'devtools',
+                        'task'   => 'main',
+                        'action' => 'hello',
+                        'World',
+                        '######',
+                    ]
+                );
+            }
+        );
+    }
+
+    public function shouldThrowExceptionWhenTaskDoesNotExists(CliTester $I)
+    {
+        $I->wantToTest("Cli\Console - handle() - Throw exception when task does not exists");
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $console->dispatcher->setDefaultNamespace('Dummy\\');
+
+        $I->expectThrowable(
+            new DispatcherException(
+                "Dummy\MainTask handler class cannot be loaded",
+                2
+            ),
+            function () use ($console) {
+                // testing namespace
+                $console->handle(
+                    [
+                        'task'   => 'main',
+                        'action' => 'hello',
+                        'World',
+                        '!',
+                    ]
+                );
+            }
+        );
+    }
+
+    public function testIssue787(CliTester $I)
+    {
+        $console = new CliConsole(new DiFactoryDefault());
+        $console->dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+
+        $console->handle(
+            [
+                'task'   => 'issue787',
+                'action' => 'main',
+            ]
+        );
+
+        $I->assertEquals(
+            'beforeExecuteRoute' . PHP_EOL . 'initialize' . PHP_EOL,
+            Issue787Task::$output
+        );
     }
 }

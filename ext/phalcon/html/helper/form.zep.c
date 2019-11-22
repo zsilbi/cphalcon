@@ -15,15 +15,14 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
-#include "kernel/string.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -46,6 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Form) {
  */
 PHP_METHOD(Phalcon_Html_Helper_Form, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL, overrides, _0, _1;
 	zval attributes;
@@ -68,17 +68,16 @@ PHP_METHOD(Phalcon_Html_Helper_Form, __invoke) {
 
 
 	ZEPHIR_INIT_VAR(&overrides);
-	zephir_create_array(&overrides, 2, 0 TSRMLS_CC);
+	zephir_create_array(&overrides, 2, 0);
 	add_assoc_stringl_ex(&overrides, SL("method"), SL("post"));
 	add_assoc_stringl_ex(&overrides, SL("enctype"), SL("multipart/form-data"));
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "orderattributes", NULL, 0, &overrides, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&overrides, &_0);
 	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "renderattributes", NULL, 0, &overrides);
+	ZVAL_STRING(&_1, "form");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &_1, &overrides);
 	zephir_check_call_status();
-	zephir_fast_trim(&_1, &_0, NULL , ZEPHIR_TRIM_RIGHT TSRMLS_CC);
-	ZEPHIR_CONCAT_SVS(return_value, "<form ", &_1, ">");
 	RETURN_MM();
 
 }

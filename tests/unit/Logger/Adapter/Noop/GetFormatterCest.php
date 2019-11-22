@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -17,19 +17,12 @@ use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-/**
- * Class GetFormatterCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class GetFormatterCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: getFormatter()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function loggerAdapterNoopGetFormatter(UnitTester $I)
@@ -37,10 +30,14 @@ class GetFormatterCest
         $I->wantToTest('Logger\Adapter\Noop - getFormatter()');
 
         $adapter = new Noop();
-        $adapter->getFormatter(new Line());
 
-        $class  = FormatterInterface::class;
-        $actual = $adapter->getFormatter();
-        $I->assertInstanceOf($class, $actual);
+        $adapter->getFormatter(
+            new Line()
+        );
+
+        $I->assertInstanceOf(
+            FormatterInterface::class,
+            $adapter->getFormatter()
+        );
     }
 }

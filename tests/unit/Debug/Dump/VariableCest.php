@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -15,46 +15,57 @@ namespace Phalcon\Test\Unit\Debug\Dump;
 use Phalcon\Debug\Dump;
 use UnitTester;
 
-/**
- * Class VariableCest
- */
 class VariableCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: variable()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function debugDumpVariable(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - variable()');
+
         $test = 'value';
+
         $dump = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variable_output.txt')));
-        $actual   = $dump->variable($test);
-        $I->assertEquals($expected, $actual);
+        $expected = trim(
+            file_get_contents(
+                dataDir('fixtures/Dump/variable_output.txt')
+            )
+        );
+
+        $I->assertEquals(
+            $expected,
+            $dump->variable($test)
+        );
     }
 
     /**
      * Tests Phalcon\Debug\Dump :: variable() - name
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function debugDumpVariableName(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - variable() - name');
+
         $test = 'value';
+
         $dump = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variable_name_output.txt')));
-        $actual   = $dump->variable($test, 'super');
-        $I->assertEquals($expected, $actual);
+        $expected = trim(
+            file_get_contents(
+                dataDir('fixtures/Dump/variable_name_output.txt')
+            )
+        );
+
+        $I->assertEquals(
+            $expected,
+            $dump->variable($test, 'super')
+        );
     }
 }

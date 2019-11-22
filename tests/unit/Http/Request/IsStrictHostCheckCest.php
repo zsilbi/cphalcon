@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,61 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-/**
- * Class IsStrictHostCheckCest
- */
-class IsStrictHostCheckCest
+class IsStrictHostCheckCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: isStrictHostCheck()
+     * Tests strict host check
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2016-06-26
      */
-    public function httpRequestIsStrictHostCheck(UnitTester $I)
+    public function testHttpStrictHostCheck(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - isStrictHostCheck()');
-        $I->skipTest('Need implementation');
+        $request = $this->getRequestObject();
+
+        $request->setStrictHostCheck(true);
+
+        $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
+
+        $I->assertEquals(
+            'localhost',
+            $request->getHttpHost()
+        );
+
+
+        $request = $this->getRequestObject();
+
+        $request->setStrictHostCheck(false);
+
+        $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
+
+        $I->assertEquals(
+            'LOCALHOST:80',
+            $request->getHttpHost()
+        );
+
+
+        $request = $this->getRequestObject();
+
+        $I->assertFalse(
+            $request->isStrictHostCheck()
+        );
+
+
+        $request->setStrictHostCheck(true);
+
+        $I->assertTrue(
+            $request->isStrictHostCheck()
+        );
+
+
+        $request->setStrictHostCheck(false);
+
+        $I->assertFalse(
+            $request->isStrictHostCheck()
+        );
     }
 }

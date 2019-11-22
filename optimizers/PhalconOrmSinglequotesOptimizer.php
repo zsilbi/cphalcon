@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -30,13 +30,15 @@ class PhalconOrmSinglequotesOptimizer extends OptimizerAbstract
      */
     public function optimize(array $expression, Call $call, CompilationContext $context)
     {
-
         if (!isset($expression['parameters'])) {
             return false;
         }
 
         if (count($expression['parameters']) != 1) {
-            throw new CompilerException("phalcon_orm_singlequotes only accepts one parameter", $expression);
+            throw new CompilerException(
+                "phalcon_orm_singlequotes only accepts one parameter",
+                $expression
+            );
         }
 
         /**
@@ -45,8 +47,12 @@ class PhalconOrmSinglequotesOptimizer extends OptimizerAbstract
         $call->processExpectedReturn($context);
 
         $symbolVariable = $call->getSymbolVariable();
+
         if ($symbolVariable->getType() != 'variable') {
-            throw new CompilerException("Returned values by functions can only be assigned to variant variables", $expression);
+            throw new CompilerException(
+                "Returned values by functions can only be assigned to variant variables",
+                $expression
+            );
         }
 
         if ($call->mustInitSymbolVariable()) {
@@ -54,13 +60,25 @@ class PhalconOrmSinglequotesOptimizer extends OptimizerAbstract
         }
 
         $context->headersManager->add('phalcon/mvc/model/orm');
+
         $symbolVariable->setDynamicTypes('string');
 
-        $resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
+        $resolvedParams = $call->getResolvedParams(
+            $expression['parameters'],
+            $context,
+            $expression
+        );
 
         $symbol = $context->backend->getVariableCode($symbolVariable);
-        $context->codePrinter->output('phalcon_orm_singlequotes(' . $symbol . ', ' . $resolvedParams[0] . ' TSRMLS_CC);');
 
-        return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
+        $context->codePrinter->output(
+            'phalcon_orm_singlequotes(' . $symbol . ', ' . $resolvedParams[0] . ' TSRMLS_CC);'
+        );
+
+        return new CompiledExpression(
+            'variable',
+            $symbolVariable->getRealName(),
+            $expression
+        );
     }
 }

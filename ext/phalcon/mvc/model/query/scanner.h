@@ -1,21 +1,12 @@
-
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
-*/
+/* scanner.h
+ *
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 #define PHQL_SCANNER_RETCODE_EOF -1
 #define PHQL_SCANNER_RETCODE_ERR -2
@@ -99,13 +90,14 @@
 #define PHQL_T_OFFSET 329
 #define PHQL_T_DISTINCT 330
 #define PHQL_T_BETWEEN 331
-#define PHQL_T_CAST 332
-#define PHQL_T_TRUE 333
-#define PHQL_T_FALSE 334
-#define PHQL_T_CONVERT 335
-#define PHQL_T_USING 336
-#define PHQL_T_ALL 337
-#define PHQL_T_FOR 338
+#define PHQL_T_BETWEEN_NOT 332
+#define PHQL_T_CAST 333
+#define PHQL_T_TRUE 334
+#define PHQL_T_FALSE 335
+#define PHQL_T_CONVERT 336
+#define PHQL_T_USING 337
+#define PHQL_T_ALL 338
+#define PHQL_T_FOR 339
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350

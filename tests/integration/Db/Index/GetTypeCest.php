@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,23 +13,37 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Index;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class GetTypeCest
- */
 class GetTypeCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Index :: getType()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function dbIndexGetType(IntegrationTester $I)
     {
         $I->wantToTest('Db\Index - getType()');
-        $I->skipTest('Need implementation');
+
+        $indexes = $this->getIndexes();
+
+
+
+        $index4 = $indexes['index4'];
+
+        $I->assertEquals(
+            'UNIQUE',
+            $index4->getType()
+        );
+
+
+
+        $index5 = $indexes['index5'];
+
+        $I->assertEquals(
+            'FULLTEXT',
+            $index5->getType()
+        );
     }
 }

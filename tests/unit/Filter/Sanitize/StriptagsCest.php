@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -16,20 +16,14 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Striptags;
 use UnitTester;
 
-/**
- * Class StriptagsCest
- */
 class StriptagsCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Striptags :: __invoke()
      *
      * @dataProvider getData
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
     public function filterSanitizeStriptagsInvoke(UnitTester $I, Example $example)
@@ -38,13 +32,12 @@ class StriptagsCest
 
         $sanitizer = new Striptags();
 
-        $actual = $sanitizer($example[0]);
-        $I->assertEquals($example[1], $actual);
+        $I->assertEquals(
+            $example[1],
+            $sanitizer($example[0])
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getData(): array
     {
         return [

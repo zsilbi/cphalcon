@@ -41,7 +41,7 @@ ext/run-tests.php
 *.phc
 *.dSYM
 *.deps
-lemon
+.ci/lemon
 
 .libs/
 autom4te.cache/
@@ -49,7 +49,11 @@ autom4te.cache/
 /ide/
 
 .zephir/
+.temp/
+
+# Zephir compiler
 zephir.phar
+zephir-*.phar
 
 boxfile.yml
 composer.lock
@@ -57,3 +61,5 @@ php_test_results_*.txt
 docker-compose.yml
 build/gccarch
 tests/_cache
+
+.php_cs.cache

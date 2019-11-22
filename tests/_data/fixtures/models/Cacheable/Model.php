@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -18,6 +18,7 @@ class Model extends PhalconModel
     public static function findFirst($parameters = null)
     {
         $parameters = self::getCacheableParams($parameters);
+
         return parent::findFirst($parameters);
     }
 
@@ -28,10 +29,12 @@ class Model extends PhalconModel
         }
 
         if (isset($parameters['di'])) {
-            unset ($parameters['di']);
+            unset($parameters['di']);
         }
 
-        $key = md5(get_called_class() . serialize($parameters));
+        $key = md5(
+            get_called_class() . serialize($parameters)
+        );
 
         if (!is_array($parameters)) {
             $parameters = [$parameters];
@@ -48,6 +51,7 @@ class Model extends PhalconModel
     public static function find($parameters = null)
     {
         $parameters = self::getCacheableParams($parameters);
+
         return parent::find($parameters);
     }
 }

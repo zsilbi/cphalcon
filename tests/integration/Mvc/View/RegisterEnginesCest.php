@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,23 +13,48 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
+use Phalcon\Mvc\View;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class RegisterEnginesCest
- */
 class RegisterEnginesCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiView();
+    }
+
     /**
-     * Tests Phalcon\Mvc\View :: registerEngines()
+     * Tests the View::registerEngines
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Kamil Skowron <git@hedonsoftware.com>
+     * @since  2014-05-28
      */
     public function mvcViewRegisterEngines(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View - registerEngines()');
-        $I->skipTest('Need implementation');
+
+        $engines = $this->getViewRegisterEngines();
+
+        $view = $this->getService('view');
+
+        $view->registerEngines($engines);
+
+        $I->assertEquals(
+            $engines,
+            $view->getRegisteredEngines()
+        );
+    }
+
+    private function getViewRegisterEngines(): array
+    {
+        return [
+            '.mhtml' => MustacheEngine::class,
+            '.phtml' => PhpEngine::class,
+            '.twig'  => TwigEngine::class,
+            '.volt'  => VoltEngine::class,
+        ];
     }
 }

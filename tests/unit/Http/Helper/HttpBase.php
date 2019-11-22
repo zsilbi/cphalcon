@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -31,6 +31,7 @@ class HttpBase
     {
         $this->server = $_SERVER;
         $_SERVER      = [];
+
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();
@@ -51,12 +52,10 @@ class HttpBase
     /**
      * Initializes the response object and returns it
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
-     *
-     * @return Response
      */
-    protected function getResponseObject()
+    protected function getResponseObject(): Response
     {
         $container = Di::getDefault();
 
@@ -66,29 +65,25 @@ class HttpBase
     /**
      * Checks the has functions on non defined variables
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
-     *
-     * @param UnitTester $I
-     * @param string     $function
      */
-    protected function hasEmpty(UnitTester $I, $function)
+    protected function hasEmpty(UnitTester $I, string $function)
     {
         $request = $this->getRequestObject();
-        $actual  = $request->$function('test');
 
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $request->$function('test')
+        );
     }
 
     /**
      * Initializes the request object and returns it
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
-     *
-     * @return Request
      */
-    protected function getRequestObject()
+    protected function getRequestObject(): Request
     {
         $container = Di::getDefault();
 
@@ -98,14 +93,10 @@ class HttpBase
     /**
      * Checks the has functions on defined variables
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
-     *
-     * @param UnitTester $I
-     * @param string     $function
-     * @param string     $method
      */
-    protected function hasNotEmpty(UnitTester $I, $function, $method)
+    protected function hasNotEmpty(UnitTester $I, string $function, string $method)
     {
         $request  = $this->getRequestObject();
         $unMethod = "un{$method}";
@@ -120,55 +111,43 @@ class HttpBase
     /**
      * Checks the get functions on undefined variables
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
-     *
-     * @param UnitTester $I
-     * @param string     $function
      */
-    protected function getEmpty(UnitTester $I, $function)
+    protected function getEmpty(UnitTester $I, string $function)
     {
         $request = $this->getRequestObject();
 
-        $actual = $request->$function('test');
-
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $request->$function('test')
+        );
     }
 
     /**
      * Checks the get functions on defined variables
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
-     *
-     * @param UnitTester $I
-     * @param string     $function
-     * @param string     $method
      */
-    protected function getNotEmpty(UnitTester $I, $function, $method)
+    protected function getNotEmpty(UnitTester $I, string $function, string $method)
     {
         $request  = $this->getRequestObject();
         $unMethod = "un{$method}";
 
         $this->$method('test', 1);
-        $expected = 1;
-        $actual   = $request->$function('test');
+        $actual = $request->$function('test');
         $this->$unMethod('test');
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(1, $actual);
     }
 
     /**
      * Checks the get functions for sanitized data
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
-     *
-     * @param UnitTester $I
-     * @param string     $function
-     * @param string     $method
      */
-    protected function getSanitized(UnitTester $I, $function, $method)
+    protected function getSanitized(UnitTester $I, string $function, string $method)
     {
         $request  = $this->getRequestObject();
         $unMethod = "un{$method}";
@@ -184,15 +163,12 @@ class HttpBase
     /**
      * Checks the get functions for sanitized data (array filters)
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
+     * @param array $filter
      *
-     * @param UnitTester $I
-     * @param string     $function
-     * @param array      $filter
-     * @param string     $method
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-05
      */
-    protected function getSanitizedArrayFilter(UnitTester $I, $function, $filter, $method)
+    protected function getSanitizedArrayFilter(UnitTester $I, string $function, $filter, string $method)
     {
         $request  = $this->getRequestObject();
         $unMethod = "un{$method}";
@@ -208,11 +184,10 @@ class HttpBase
     /**
      * Sets a server variable ($_SERVER)
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
-     *
      * @param string $var
-     * @param mixed  $value
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-05
      */
     protected function setServerVar($var, $value)
     {
@@ -222,10 +197,10 @@ class HttpBase
     /**
      * Unsets a server variable ($_SERVER)
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
-     *
      * @param string $var
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-05
      */
     protected function unsetServerVar($var)
     {
@@ -235,11 +210,10 @@ class HttpBase
     /**
      * Sets a get variable ($_GET)
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
-     *
      * @param string $var
-     * @param mixed  $value
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-05
      */
     protected function setGetVar($var, $value)
     {
@@ -249,10 +223,10 @@ class HttpBase
     /**
      * Unsets a get variable ($_GET)
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
-     *
      * @param string $var
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-05
      */
     protected function unsetGetVar($var)
     {
@@ -262,11 +236,10 @@ class HttpBase
     /**
      * Sets a post variable ($_POST)
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
-     *
      * @param string $var
-     * @param mixed  $value
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-05
      */
     protected function setPostVar($var, $value)
     {
@@ -276,10 +249,10 @@ class HttpBase
     /**
      * Unsets a post variable ($_POST)
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
-     *
      * @param string $var
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-05
      */
     protected function unsetPostVar($var)
     {
@@ -289,11 +262,10 @@ class HttpBase
     /**
      * Sets a request variable ($_REQUEST)
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
-     *
      * @param string $var
-     * @param mixed  $value
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-05
      */
     protected function setRequestVar($var, $value)
     {
@@ -303,10 +275,10 @@ class HttpBase
     /**
      * Unsets a request variable ($_REQUEST)
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-05
-     *
      * @param string $var
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2014-10-05
      */
     protected function unsetRequestVar($var)
     {

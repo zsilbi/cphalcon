@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,23 +13,46 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class TableExistsCest
- */
 class TableExistsCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiModelsManager();
+        $this->setDiModelsMetadata();
+        $this->setDiSqlite();
+    }
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: tableExists()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function dbAdapterPdoSqliteTableExists(IntegrationTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo\Sqlite - tableExists()');
-        $I->skipTest('Need implementation');
+
+        $connection = $this->getService('db');
+
+        $I->assertTrue(
+            $connection->tableExists('personas')
+        );
+
+        $I->assertFalse(
+            $connection->tableExists('noexist')
+        );
+
+        $I->assertTrue(
+            $connection->tableExists('personas', 'public')
+        );
+
+        $I->assertTrue(
+            $connection->tableExists('personas', 'test')
+        );
     }
 }

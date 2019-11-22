@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -17,18 +17,26 @@ class RelationsRobotsParts extends Model
 {
     public function initialize()
     {
-        $this->belongsTo('parts_id', RelationsParts::class, 'id', [
-            'foreignKey' => true,
-        ]);
-        $this->belongsTo('robots_id', RelationsRobots::class, 'id', [
-            'foreignKey' => [
-                'message' => 'The robot code does not exist',
-            ],
-        ]);
-    }
+        $this->setSource('robots_parts');
 
-    public function getSource(): string
-    {
-        return 'robots_parts';
+        $this->belongsTo(
+            'parts_id',
+            RelationsParts::class,
+            'id',
+            [
+                'foreignKey' => true,
+            ]
+        );
+
+        $this->belongsTo(
+            'robots_id',
+            RelationsRobots::class,
+            'id',
+            [
+                'foreignKey' => [
+                    'message' => 'The robot code does not exist',
+                ],
+            ]
+        );
     }
 }

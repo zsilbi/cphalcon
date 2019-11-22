@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,23 +13,44 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Snapshot\Robots;
 
-/**
- * Class GroupByCest
- */
 class GroupByCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: groupBy()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function mvcModelQueryBuilderGroupBy(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Query\Builder - groupBy()');
-        $I->skipTest('Need implementation');
+
+        $builder = new Builder();
+        $builder->setDi($this->container);
+
+        $phql = $builder->columns(['name', 'SUM(price)'])
+                        ->from(Robots::class)
+                        ->groupBy('id, name')
+                        ->getPhql()
+        ;
+
+        $I->assertEquals(
+            'SELECT name, SUM(price) FROM [' . Robots::class . '] GROUP BY [id], [name]',
+            $phql
+        );
     }
 }

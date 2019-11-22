@@ -20,27 +20,30 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ */
+/**
+ * PSR-11 Wrapper for `Phalcon\Di`
  */
 ZEPHIR_INIT_CLASS(Phalcon_Container) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Container, phalcon, container, phalcon_container_method_entry, 0);
 
 	/**
-	 * @var <DiInterface>
+	 * @var DiInterface
 	 */
-	zend_declare_property_null(phalcon_container_ce, SL("container"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_container_ce, SL("container"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_container_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\container\\containerinterface")));
+	zend_class_implements(phalcon_container_ce, 1, zephir_get_internal_ce(SL("psr\\container\\containerinterface")));
 	return SUCCESS;
 
 }
 
 /**
- * Phalcon\Di constructor
+ * Phalcon\Container constructor
  */
 PHP_METHOD(Phalcon_Container, __construct) {
 
@@ -49,7 +52,7 @@ PHP_METHOD(Phalcon_Container, __construct) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -62,6 +65,7 @@ PHP_METHOD(Phalcon_Container, __construct) {
  */
 PHP_METHOD(Phalcon_Container, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub, _0;
 	zval *this_ptr = getThis();
@@ -75,7 +79,7 @@ PHP_METHOD(Phalcon_Container, get) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getservice", NULL, 0, name);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getshared", NULL, 0, name);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -86,6 +90,7 @@ PHP_METHOD(Phalcon_Container, get) {
  */
 PHP_METHOD(Phalcon_Container, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub, _0;
 	zval *this_ptr = getThis();

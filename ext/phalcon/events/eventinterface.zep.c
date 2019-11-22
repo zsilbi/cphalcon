@@ -15,7 +15,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -39,14 +39,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_EventInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, getData);
 
 /**
- * Sets event data
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, setData);
-
-/**
  * Gets event type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, getType);
+
+/**
+ * Check whether the event is cancelable
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, isCancelable);
+
+/**
+ * Check whether the event is currently stopped
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, isStopped);
+
+/**
+ * Sets event data
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, setData);
 
 /**
  * Sets event type
@@ -57,14 +67,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, setType);
  * Stops the event preventing propagation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, stop);
-
-/**
- * Check whether the event is currently stopped
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, isStopped);
-
-/**
- * Check whether the event is cancelable
- */
-ZEPHIR_DOC_METHOD(Phalcon_Events_EventInterface, isCancelable);
 

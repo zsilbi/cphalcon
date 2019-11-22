@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -34,10 +34,18 @@ class Customers extends Model
     public $created_at;
 
     protected $protected_field;
-    private   $private_field;
+    private $private_field;
 
     public function initialize()
     {
-        $this->hasOne('customer_id', Users::class, 'id', ['alias' => 'user', 'reusable' => true]);
+        $this->hasOne(
+            'customer_id',
+            Users::class,
+            'id',
+            [
+                'alias'    => 'user',
+                'reusable' => true,
+            ]
+        );
     }
 }

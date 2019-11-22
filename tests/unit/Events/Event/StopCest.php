@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Events\Event;
 
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
 use UnitTester;
 
-/**
- * Class StopCest
- */
 class StopCest
 {
     /**
-     * Tests Phalcon\Events\Event :: stop()
+     * Tests using events propagation
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2012-11-11
      */
-    public function eventsEventStop(UnitTester $I)
+    public function stopEventsInEventsManager(UnitTester $I)
     {
-        $I->wantToTest('Events\Event - stop()');
-        $I->skipTest('Need implementation');
+        $number        = 0;
+        $eventsManager = new Manager();
+
+        $propagationListener = function (Event $event, $component, $data) use (&$number) {
+            $number++;
+
+            $event->stop();
+        };
+
+        $eventsManager->attach('some-type', $propagationListener);
+        $eventsManager->attach('some-type', $propagationListener);
+
+        $eventsManager->fire('some-type:beforeSome', $this);
+
+        $I->assertEquals(1, $number);
     }
 }

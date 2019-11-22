@@ -17,7 +17,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -29,7 +29,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Dispatcher, Exception, phalcon, mvc_dispatcher_exception, phalcon_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Dispatcher, Exception, phalcon, mvc_dispatcher_exception, phalcon_dispatcher_exception_ce, NULL, 0);
 
 	return SUCCESS;
 

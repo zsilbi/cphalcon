@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -34,7 +34,9 @@ class Packages extends Model
             ['reference_id', 'reference_type_id'],
             PackageDetails::class,
             ['reference_id', 'reference_type_id'],
-            ['alias' => 'details']
+            [
+                'alias' => 'details',
+            ]
         );
     }
 }

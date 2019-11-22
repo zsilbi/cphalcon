@@ -14,12 +14,13 @@
 #include "kernel/main.h"
 #include "kernel/string.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -42,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Replace) {
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_Replace, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *input, input_sub, *from, from_sub, *to, to_sub, _0;
 	zval *this_ptr = getThis();
 
@@ -56,7 +58,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Replace, __invoke) {
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_fast_str_replace(&_0, from, to, input TSRMLS_CC);
+	zephir_fast_str_replace(&_0, from, to, input);
 	RETURN_CCTOR(&_0);
 
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -15,35 +15,39 @@ namespace Phalcon\Test\Unit\Crypt;
 use Phalcon\Crypt;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Crypt :: __construct()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function cryptConstruct(UnitTester $I)
     {
         $I->wantToTest('Crypt - __construct()');
-        $actual = new Crypt();
-        $class  = Crypt::class;
-        $I->assertInstanceOf($class, $actual);
 
-        $actual = new Crypt("aes-256-cfb", true);
-        $class  = Crypt::class;
-        $I->assertInstanceOf($class, $actual);
+
+        $crypt = new Crypt();
+
+        $I->assertInstanceOf(
+            Crypt::class,
+            $crypt
+        );
+
+
+        $crypt = new Crypt('aes-256-cfb', true);
+
+        $I->assertInstanceOf(
+            Crypt::class,
+            $crypt
+        );
     }
 
     /**
      * Tests the Crypt constants
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2015-12-20
      */
     public function testCryptConstants(UnitTester $I)

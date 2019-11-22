@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,47 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use Integer;
+use Phalcon\Loader;
+use Phalcon\Test\Fixtures\Traits\LoaderTrait;
+use Sqlite;
 use UnitTester;
+use function dataDir;
 
-/**
- * Class RegisterDirsCest
- */
 class RegisterDirsCest
 {
-    /**
-     * Tests Phalcon\Loader :: registerDirs()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function loaderRegisterDirs(UnitTester $I)
+    use LoaderTrait;
+
+    public function testDirectories(UnitTester $I)
     {
-        $I->wantToTest('Loader - registerDirs()');
-        $I->skipTest('Need implementation');
+        $loader = new Loader();
+
+        $loader->registerDirs(
+            [
+                // missing trailing slash
+                dataDir('fixtures/Loader/Example/Folders/Dialects'),
+            ]
+        );
+
+        $loader->registerDirs(
+            [
+                dataDir('fixtures/Loader/Example/Folders/Types/'),
+            ],
+            true
+        );
+
+        $loader->register();
+
+        $I->assertInstanceOf(
+            Sqlite::class,
+            new Sqlite()
+        );
+
+        $I->assertInstanceOf(
+            Integer::class,
+            new Integer()
+        );
+
+        $loader->unregister();
     }
 }

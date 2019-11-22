@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,47 +13,44 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetRealSourcePathCest
- */
 class GetRealSourcePathCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: getRealSourcePath() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getRealSourcePath() - local
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsAssetJsGetRealSourcePathLocal(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getRealSourcePath() - js local');
+        $I->wantToTest('Assets\Asset - getRealSourcePath() - local');
+
         $asset = new Js('js/jquery.js');
 
-        $expected = false;
-        $this->assetGetRealSourcePath($I, $asset, $expected);
+        $I->assertFalse(
+            $asset->getRealSourcePath()
+        );
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealSourcePath() - js remote
+     * Tests Phalcon\Assets\Asset\Js :: getRealSourcePath() - remote
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsAssetJsGetRealSourcePathRemote(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getRealSourcePath() - js remote');
-        $asset = new Js('https://phalcon.ld/js/jquery.js', false);
+        $I->wantToTest('Assets\Asset - getRealSourcePath() - remote');
 
-        $expected = 'https://phalcon.ld/js/jquery.js';
-        $this->assetGetRealSourcePath($I, $asset, $expected);
+        $path = 'https://phalcon.ld/js/jquery.js';
+
+        $asset = new Js($path, false);
+
+        $I->assertEquals(
+            $path,
+            $asset->getRealSourcePath()
+        );
     }
 }

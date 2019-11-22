@@ -17,12 +17,13 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -41,10 +42,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Striptags) {
 }
 
 /**
- * @var mixed input The text to sanitize
+ * @var string input The text to sanitize
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input_param = NULL;
 	zval input;
@@ -56,7 +58,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke) {
 	zephir_fetch_params(1, 1, 0, &input_param);
 
 	if (UNEXPECTED(Z_TYPE_P(input_param) != IS_STRING && Z_TYPE_P(input_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(input_param) == IS_STRING)) {
@@ -67,7 +69,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 192, &input);
+	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 239, &input);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddColumnCest
@@ -22,30 +24,31 @@ class AddColumnCest
     /**
      * Tests Dialect::addColumn
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-02-26
+     *
+     * @dataProvider getAddColumnFixtures
      */
-    public function dbDialectSqliteAddColumn(IntegrationTester $I)
+    public function dbDialectSqliteAddColumn(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Db\Dialect\Sqlite - addColumn()");
-        $data = $this->getAddColumnFixtures();
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $column   = $item[1];
-            $expected = $item[2];
-            $columns  = $this->getColumns();
-            $dialect  = $this->getDialectSqlite();
-            $actual   = $dialect->addColumn('table', $schema, $columns[$column]);
 
-            $I->assertEquals($expected, $actual);
-        }
+        $schema   = $example[0];
+        $column   = $example[1];
+        $expected = $example[2];
+
+        $columns = $this->getColumns();
+        $dialect = new Sqlite();
+
+        $actual = $dialect->addColumn(
+            'table',
+            $schema,
+            $columns[$column]
+        );
+
+        $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     protected function getAddColumnFixtures(): array
     {
         return [

@@ -21,21 +21,19 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\View\Exception
- *
  * Class for exceptions thrown by Phalcon\Mvc\View
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine\\Volt, Exception, phalcon, mvc_view_engine_volt_exception, phalcon_mvc_view_exception_ce, phalcon_mvc_view_engine_volt_exception_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_view_engine_volt_exception_ce, SL("statement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_engine_volt_exception_ce, SL("statement"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -43,6 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception) {
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long code, ZEPHIR_LAST_CALL_STATUS;
 	zval statement;
 	zval *message_param = NULL, *statement_param = NULL, *code_param = NULL, *previous = NULL, previous_sub, __$null, _0;
@@ -95,6 +94,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct) {
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, getStatement) {
 
 	zval statement, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&statement);

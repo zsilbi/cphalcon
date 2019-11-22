@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -31,6 +31,11 @@ class ResultsetClassCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Checks if resultset class Simple is returned when getResultsetClass()
      * method is not defined
@@ -39,7 +44,10 @@ class ResultsetClassCest
      */
     public function testDefaultResultsetClass(IntegrationTester $I)
     {
-        $I->assertInstanceOf(Simple::class, CityStats::find());
+        $I->assertInstanceOf(
+            Simple::class,
+            CityStats::find()
+        );
     }
 
     /**
@@ -50,7 +58,10 @@ class ResultsetClassCest
      */
     public function testCustomClassForResultset(IntegrationTester $I)
     {
-        $I->assertInstanceOf(Stats::class, AgeStats::find());
+        $I->assertInstanceOf(
+            Stats::class,
+            AgeStats::find()
+        );
     }
 
     /**

@@ -2,11 +2,14 @@
  *
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the
  * LICENSE.txt file that was distributed with this source code.
  */
+
+#ifndef PHALCON_MVC_VIEW_ENGINE_VOLT_VOLT_H
+#define PHALCON_MVC_VIEW_ENGINE_VOLT_VOLT_H
 
 typedef struct _phvolt_parser_token { /* {{{ */
 	char *token;
@@ -31,6 +34,8 @@ typedef struct _phvolt_parser_status { /* {{{ */
 
 extern int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_DC);
 int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_path, zval **error_msg TSRMLS_DC);
+
+#endif // PHALCON_MVC_VIEW_ENGINE_VOLT_VOLT_H
 
 /* Local variables:
  * tab-width: 4

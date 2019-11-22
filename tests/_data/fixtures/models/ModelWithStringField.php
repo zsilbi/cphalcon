@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -24,23 +24,24 @@ class ModelWithStringField extends Model
      */
     public $field;
 
-    /**
-     * @return string
-     */
-    public function getSource(): string
+    public function initialize()
     {
-        return 'table_with_string_field';
+        $this->setSource('table_with_string_field');
     }
 
     public function allowEmptyStringValue()
     {
-        $this->allowEmptyStringValues([
-            'field',
-        ]);
+        $this->allowEmptyStringValues(
+            [
+                'field',
+            ]
+        );
     }
 
     public function disallowEmptyStringValue()
     {
-        $this->allowEmptyStringValues([]);
+        $this->allowEmptyStringValues(
+            []
+        );
     }
 }

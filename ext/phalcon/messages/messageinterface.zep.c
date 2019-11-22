@@ -15,7 +15,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -32,6 +32,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_MessageInterface) {
 	return SUCCESS;
 
 }
+
+/**
+ * Magic __toString method returns verbose message
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, __toString);
 
 /**
  * Returns the message code related to this message
@@ -53,14 +58,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getField);
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getMessage);
 
 /**
- * Returns message type
- */
-ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getType);
-
-/**
  * Returns message metadata
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getMetaData);
+
+/**
+ * Returns message type
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getType);
 
 /**
  * Sets code for the message
@@ -78,17 +83,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setField);
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setMessage);
 
 /**
- * Sets message type
- */
-ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setType);
-
-/**
  * Sets message metadata
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setMetaData);
 
 /**
- * Magic __toString method returns verbose message
+ * Sets message type
  */
-ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, __toString);
+ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setType);
 

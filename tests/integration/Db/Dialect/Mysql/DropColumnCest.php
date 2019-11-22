@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,48 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class DropColumnCest
- */
 class DropColumnCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: dropColumn()
      *
-     * @param IntegrationTester $I
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider getDropColumnFixtures
      */
-    public function dbDialectMysqlDropColumn(IntegrationTester $I)
+    public function dbDialectMysqlDropColumn(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Mysql - dropColumn()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $column   = $example[1];
+        $expected = $example[2];
+
+        $dialect = new Mysql();
+
+        $actual = $dialect->dropColumn('table', $schema, $column);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDropColumnFixtures(): array
+    {
+        return [
+            [
+                '',
+                'column1',
+                'ALTER TABLE `table` DROP COLUMN `column1`',
+            ],
+            [
+                'schema',
+                'column1',
+                'ALTER TABLE `schema`.`table` DROP COLUMN `column1`',
+            ],
+        ];
     }
 }

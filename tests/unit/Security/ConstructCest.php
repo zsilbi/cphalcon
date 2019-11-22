@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,35 +12,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
 use Phalcon\Security;
+use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Security :: __construct()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function securityConstruct(UnitTester $I)
     {
         $I->wantToTest('Security - __construct()');
+
         $security = new Security();
 
-        $class = Security::class;
-        $I->assertInstanceOf($class, $security);
+        $I->assertInstanceOf(
+            Security::class,
+            $security
+        );
     }
 
     /**
      * Tests the Security constants
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2015-12-19
      */
     public function testSecurityConstants(UnitTester $I)

@@ -23,7 +23,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -37,32 +37,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AbstractAdapter) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_logger_adapter_abstractadapter_ce, SL("defaultFormatter"), "Line", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_logger_adapter_abstractadapter_ce, SL("defaultFormatter"), "Line", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Formatter
 	 *
-	 * @var <FormatterInterface>
+	 * @var FormatterInterface
 	 */
-	zend_declare_property_null(phalcon_logger_adapter_abstractadapter_ce, SL("formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_adapter_abstractadapter_ce, SL("formatter"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Tells if there is an active transaction or not
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_logger_adapter_abstractadapter_ce, SL("inTransaction"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_logger_adapter_abstractadapter_ce, SL("inTransaction"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Array with messages queued in the transaction
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_logger_adapter_abstractadapter_ce, SL("queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_adapter_abstractadapter_ce, SL("queue"), ZEND_ACC_PROTECTED);
 
 	phalcon_logger_adapter_abstractadapter_ce->create_object = zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter;
 
-	zend_class_implements(phalcon_logger_adapter_abstractadapter_ce TSRMLS_CC, 1, phalcon_logger_adapter_adapterinterface_ce);
+	zend_class_implements(phalcon_logger_adapter_abstractadapter_ce, 1, phalcon_logger_adapter_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -73,6 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AbstractAdapter) {
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __destruct) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -101,7 +102,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add) {
 
 	ZVAL_UNDEF(&item_sub);
 
-	zephir_fetch_params(0, 1, 0, &item);
+	zephir_fetch_params_without_memory_grow(1, 0, &item);
 
 
 
@@ -137,6 +138,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin) {
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 
 	zval inTransaction, item, queue, _0, *_1, _2, _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -155,10 +157,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 	zephir_read_property(&_0, this_ptr, SL("queue"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&queue, &_0);
 	if (!(zephir_is_true(&inTransaction))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter/abstractadapter.zep", 92);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 91);
 		return;
 	}
-	zephir_is_iterable(&queue, 0, "phalcon/logger/adapter/abstractadapter.zep", 103);
+	zephir_is_iterable(&queue, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 102);
 	if (Z_TYPE_P(&queue) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queue), _1)
 		{
@@ -197,9 +199,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 
-	zend_class_entry *_5$$3;
-	zval _0, _1$$3, _2$$3, _3$$3, _4$$3;
+	zval _0, _1$$3, _2$$3, _3$$3;
 	zval className;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -208,7 +210,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4$$3);
 
 	ZEPHIR_MM_GROW();
 
@@ -220,13 +221,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 		ZEPHIR_CONCAT_SV(&_2$$3, "Phalcon\\Logger\\Formatter\\", &_1$$3);
 		zephir_get_strval(&className, &_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_fetch_safe_class(&_4$$3, &className);
-		_5$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_4$$3), Z_STRLEN_P(&_4$$3), ZEND_FETCH_CLASS_AUTO);
-		object_init_ex(&_3$$3, _5$$3);
-		if (zephir_has_constructor(&_3$$3 TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0);
-			zephir_check_call_status();
-		}
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_3$$3, &className);
+		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("formatter"), &_3$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "formatter");
@@ -250,18 +246,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, inTransaction) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, process) {
 
-	zval *item, item_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&item_sub);
-
-	zephir_fetch_params(0, 1, 0, &item);
-
-
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_logger_exception_ce, "This method cannot be called directly in the adapter", "phalcon/logger/adapter/abstractadapter.zep", 135);
-	return;
-
 }
 
 /**
@@ -270,6 +254,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, process) {
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback) {
 
 	zval inTransaction, _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&inTransaction);
@@ -281,7 +266,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback) {
 	zephir_read_property(&_0, this_ptr, SL("inTransaction"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&inTransaction, &_0);
 	if (!(zephir_is_true(&inTransaction))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter/abstractadapter.zep", 148);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 145);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -304,7 +289,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter) {
 
 	ZVAL_UNDEF(&formatter_sub);
 
-	zephir_fetch_params(0, 1, 0, &formatter);
+	zephir_fetch_params_without_memory_grow(1, 0, &formatter);
 
 
 
@@ -316,6 +301,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter) {
 zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

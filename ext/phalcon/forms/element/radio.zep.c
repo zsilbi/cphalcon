@@ -15,12 +15,13 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -32,7 +33,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Radio) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Radio, phalcon, forms_element_radio, phalcon_forms_element_ce, phalcon_forms_element_radio_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Radio, phalcon, forms_element_radio, phalcon_forms_element_abstractelement_ce, phalcon_forms_element_radio_method_entry, 0);
 
 	return SUCCESS;
 
@@ -43,6 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Radio) {
  */
 PHP_METHOD(Phalcon_Forms_Element_Radio, render) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *attributes_param = NULL, _1, _2;

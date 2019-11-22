@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use One;
+use Phalcon\Loader;
+use Phalcon\Test\Fixtures\Traits\LoaderTrait;
+use Two;
 use UnitTester;
+use function dataDir;
 
-/**
- * Class RegisterClassesCest
- */
 class RegisterClassesCest
 {
-    /**
-     * Tests Phalcon\Loader :: registerClasses()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function loaderRegisterClasses(UnitTester $I)
+    use LoaderTrait;
+
+    public function testClasses(UnitTester $I)
     {
-        $I->wantToTest('Loader - registerClasses()');
-        $I->skipTest('Need implementation');
+        $loader = new Loader();
+
+        $loader->registerClasses(
+            [
+                'One' => dataDir('fixtures/Loader/Example/Classes/One.php'),
+            ]
+        );
+        $loader->registerClasses(
+            [
+                'Two' => dataDir('fixtures/Loader/Example/Classes/Two.php'),
+            ],
+            true
+        );
+
+        $loader->register();
+
+        $I->assertInstanceOf(
+            One::class,
+            new One()
+        );
+
+        $I->assertInstanceOf(
+            Two::class,
+            new Two()
+        );
+
+        $loader->unregister();
     }
 }

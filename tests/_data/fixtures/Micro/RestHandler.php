@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,37 +13,48 @@ namespace Phalcon\Test\Fixtures\Micro;
 
 class RestHandler
 {
-    protected $_access = 0;
+    /**
+     * @var int
+     */
+    protected $access = 0;
 
-    protected $_trace = [];
+    /**
+     * @var array
+     */
+    protected $trace = [];
 
 
 
     public function find()
     {
-        $this->_access++;
-        $this->_trace[] = "find";
+        $this->access++;
+
+        $this->trace[] = 'find';
     }
 
     public function save()
     {
-        $this->_access++;
-        $this->_trace[] = "save";
+        $this->access++;
+
+        $this->trace[] = 'save';
     }
 
     public function delete()
     {
-        $this->_access++;
-        $this->_trace[] = "delete";
+        $this->access++;
+
+        $this->trace[] = 'delete';
     }
 
-    public function getNumberAccess()
+
+
+    public function getNumberAccess(): int
     {
-        return $this->_access;
+        return $this->access;
     }
 
-    public function getTrace()
+    public function getTrace(): array
     {
-        return $this->_trace;
+        return $this->trace;
     }
 }

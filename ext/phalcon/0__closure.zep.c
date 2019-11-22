@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_0__closure) {
@@ -26,21 +26,21 @@ ZEPHIR_INIT_CLASS(phalcon_0__closure) {
 
 PHP_METHOD(phalcon_0__closure, __invoke) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *escaper, escaper_sub;
+	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, *context, context_sub, __$true;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&escaper_sub);
+	ZVAL_UNDEF(&number_sub);
+	ZVAL_UNDEF(&message_sub);
+	ZVAL_UNDEF(&file_sub);
+	ZVAL_UNDEF(&line_sub);
+	ZVAL_UNDEF(&context_sub);
+	ZVAL_BOOL(&__$true, 1);
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &escaper);
+	zephir_fetch_params_without_memory_grow(5, 0, &number, &message, &file, &line, &context);
 
 
 
-	object_init_ex(return_value, phalcon_html_helper_anchor_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 457, escaper);
-	zephir_check_call_status();
-	RETURN_MM();
+	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$true);
 
 }
 

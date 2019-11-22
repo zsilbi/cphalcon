@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class UncamelizeCest
- */
 class UncamelizeCest
 {
     /**
@@ -26,25 +23,23 @@ class UncamelizeCest
      *
      * @dataProvider getSources
      *
-     * @param UnitTester $I
-     * @param Example    $item
-     *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
-    public function textUncamelize(UnitTester $I, Example $item)
+    public function textUncamelize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - uncamelize()');
-        $value     = $item[0];
-        $expected  = $item[1];
-        $delimiter = $item[2];
-        $actual    = Text::uncamelize($value, $delimiter);
-        $I->assertEquals($expected, $actual);
+
+        $value     = $example[0];
+        $expected  = $example[1];
+        $delimiter = $example[2];
+
+        $I->assertEquals(
+            $expected,
+            Text::uncamelize($value, $delimiter)
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getSources(): array
     {
         return [
@@ -57,15 +52,15 @@ class UncamelizeCest
             ['Camelize', 'camelize', null],
             ['camel_ize', 'camel_ize', null],
             ['CameLize', 'came_lize', null],
-            ["Camelize", 'camelize', null],
-            ["=Camelize", '=_camelize', "_"],
-            ["Camelize", 'camelize', "_"],
-            ["CameLiZe", 'came_li_ze', "_"],
-            ["CameLiZe", 'came#li#ze', "#"],
-            ["CameLiZe", 'came li ze', " "],
-            ["CameLiZe", 'came.li.ze', "."],
-            ["CameLiZe", 'came-li-ze', "-"],
-            ["CAMELIZE", 'c/a/m/e/l/i/z/e', "/"],
+            ['Camelize', 'camelize', null],
+            ['=Camelize', '=_camelize', '_'],
+            ['Camelize', 'camelize', '_'],
+            ['CameLiZe', 'came_li_ze', '_'],
+            ['CameLiZe', 'came#li#ze', '#'],
+            ['CameLiZe', 'came li ze', ' '],
+            ['CameLiZe', 'came.li.ze', '.'],
+            ['CameLiZe', 'came-li-ze', '-'],
+            ['CAMELIZE', 'c/a/m/e/l/i/z/e', '/'],
         ];
     }
 }

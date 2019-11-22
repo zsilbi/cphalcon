@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetAfterPositionCest
- */
 class GetAfterPositionCest
 {
     use DiTrait;
@@ -27,18 +24,21 @@ class GetAfterPositionCest
     /**
      * Tests Phalcon\Db\Column :: getAfterPosition()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function dbColumnGetAfterPosition(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getAfterPosition()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_after'], $column->getAfterPosition());
+            $I->assertEquals(
+                $columns[$index]['after'],
+                $column->getAfterPosition()
+            );
         }
     }
 }

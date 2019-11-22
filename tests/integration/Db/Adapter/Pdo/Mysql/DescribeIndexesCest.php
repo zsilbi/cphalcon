@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class DescribeIndexesCest
- */
 class DescribeIndexesCest
 {
     use DiTrait;
@@ -27,17 +24,27 @@ class DescribeIndexesCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: describeIndexes()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function dbAdapterPdoMysqlDescribeIndexes(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Mysql - describeIndexes()");
+
         $table    = 'dialect_table';
         $expected = $this->getExpectedIndexes();
-        $I->assertEquals($expected, $this->connection->describeIndexes($table));
-        $I->assertEquals($expected, $this->connection->describeIndexes($table, $this->getSchemaName()));
+
+        $I->assertEquals(
+            $expected,
+            $this->connection->describeIndexes($table)
+        );
+
+        $I->assertEquals(
+            $expected,
+            $this->connection->describeIndexes(
+                $table,
+                $this->getSchemaName()
+            )
+        );
     }
 }

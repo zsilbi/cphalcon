@@ -14,12 +14,13 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -42,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_StringVal) {
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input, input_sub, _0;
 	zval *this_ptr = getThis();
@@ -55,7 +57,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_StringVal, __invoke) {
 
 
 	ZVAL_LONG(&_0, 513);
-	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 188, input, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 235, input, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

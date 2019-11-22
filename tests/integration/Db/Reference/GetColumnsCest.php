@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,23 +13,64 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Reference;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class GetColumnsCest
- */
 class GetColumnsCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Reference :: getColumns()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function dbReferenceGetColumns(IntegrationTester $I)
     {
         $I->wantToTest('Db\Reference - getColumns()');
-        $I->skipTest('Need implementation');
+
+        $references = $this->getReferences();
+
+
+
+        $reference1 = $references['fk1'];
+
+        $I->assertEquals(
+            ['column1'],
+            $reference1->getColumns()
+        );
+
+
+
+        $reference2 = $references['fk2'];
+
+        $I->assertEquals(
+            ['column3', 'column4'],
+            $reference2->getColumns()
+        );
+
+
+
+        $reference3 = $references['fk3'];
+
+        $I->assertEquals(
+            ['column1'],
+            $reference3->getColumns()
+        );
+
+
+
+        $reference4 = $references['fk4'];
+
+        $I->assertEquals(
+            ['column1'],
+            $reference4->getColumns()
+        );
+
+
+
+        $reference5 = $references['fk5'];
+
+        $I->assertEquals(
+            ['column1'],
+            $reference5->getColumns()
+        );
     }
 }

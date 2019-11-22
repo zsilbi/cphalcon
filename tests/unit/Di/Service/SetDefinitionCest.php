@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
-/**
- * Class SetDefinitionCest
- */
 class SetDefinitionCest
 {
     /**
-     * Tests Phalcon\Di\Service :: setDefinition()
+     * Unit Tests Phalcon\Di\Service :: setDefinition()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-06-13
      */
     public function diServiceSetDefinition(UnitTester $I)
     {
         $I->wantToTest('Di\Service - setDefinition()');
+
         $I->skipTest('Need implementation');
     }
 }

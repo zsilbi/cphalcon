@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddColumnCest
@@ -22,29 +24,25 @@ class AddColumnCest
     /**
      * Tests Dialect::addColumn
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-02-26
+     *
+     * @dataProvider getAddColumnFixtures
      */
-    public function testAddColumn(IntegrationTester $I)
+    public function testAddColumn(IntegrationTester $I, Example $example)
     {
-        $data = $this->getAddColumnFixtures();
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $column   = $item[1];
-            $expected = $item[2];
-            $columns  = $this->getColumns();
-            $dialect  = $this->getDialectMysql();
-            $actual   = $dialect->addColumn('table', $schema, $columns[$column]);
+        $schema   = $example[0];
+        $column   = $example[1];
+        $expected = $example[2];
 
-            $I->assertEquals($expected, $actual);
-        }
+        $columns = $this->getColumns();
+        $dialect = new Mysql();
+
+        $actual = $dialect->addColumn('table', $schema, $columns[$column]);
+
+        $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     protected function getAddColumnFixtures(): array
     {
         return [

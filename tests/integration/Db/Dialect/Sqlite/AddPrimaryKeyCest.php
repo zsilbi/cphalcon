@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,41 +13,42 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Db\Dialect\Sqlite;
+use Phalcon\Db\Exception;
+use Phalcon\Db\Index;
 
 class AddPrimaryKeyCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: addPrimaryKey()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-02-26
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function dbDialectSqliteAddPrimaryKey(IntegrationTester $I)
     {
         $I->wantToTest("Db\Dialect\Sqlite - addPrimaryKey()");
-        $data = $this->getAddPrimaryKeyFixtures();
-        foreach ($data as $item) {
-            $schema    = $item[0];
-            $reference = $item[1];
-            $expected  = $item[2];
-            $dialect   = $this->getDialectSqlite();
-            $indexes   = $this->getIndexes();
-            $actual    = $dialect->addPrimaryKey('table', $schema, $indexes[$reference]);
 
-            $I->assertEquals($expected, $actual);
-        }
-    }
+        $dialect = new Sqlite();
 
-    /**
-     * @return array
-     */
-    protected function getAddPrimaryKeyFixtures(): array
-    {
-        return [];
+        $index = new Index(
+            'index1',
+            [
+                'column1',
+            ]
+        );
+
+        $I->expectThrowable(
+            new Exception(
+                'Adding a primary key after table has been created is not supported by SQLite'
+            ),
+            function () use ($dialect, $index) {
+                $dialect->addPrimaryKey(
+                    'table',
+                    'schema',
+                    $index
+                );
+            }
+        );
     }
 }

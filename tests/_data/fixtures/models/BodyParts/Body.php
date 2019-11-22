@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -29,9 +29,9 @@ class Body extends Model
             'id',
             [
                 'alias'      => 'head1',
-                "foreignKey" => [
-                    "allowNulls" => true,
-                    "message"    => "First head does not exists",
+                'foreignKey' => [
+                    'allowNulls' => true,
+                    'message'    => 'First head does not exists',
                 ],
             ]
         );
@@ -42,9 +42,9 @@ class Body extends Model
             'id',
             [
                 'alias'      => 'head2',
-                "foreignKey" => [
-                    "allowNulls" => true,
-                    "message"    => "Second head does not exists",
+                'foreignKey' => [
+                    'allowNulls' => true,
+                    'message'    => 'Second head does not exists',
                 ],
             ]
         );

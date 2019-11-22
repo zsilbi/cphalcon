@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,39 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use Phalcon\Loader;
 use UnitTester;
+use function dataDir;
 
-/**
- * Class GetFilesCest
- */
 class GetFilesCest
 {
     /**
      * Tests Phalcon\Loader :: getFiles()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function loaderGetFiles(UnitTester $I)
     {
         $I->wantToTest('Loader - getFiles()');
-        $I->skipTest('Need implementation');
+
+        $loader = new Loader();
+
+        $loader->registerFiles(
+            [
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
+            ]
+        );
+
+        $I->assertEquals(
+            [
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
+            ],
+            $loader->getFiles()
+        );
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,56 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 
-/**
- * Class ViewExistsCest
- */
 class ViewExistsCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: viewExists()
      *
-     * @param IntegrationTester $I
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2017-02-26
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider getViewExistsFixtures
      */
-    public function dbDialectSqliteViewExists(IntegrationTester $I)
+    public function dbDialectSqliteViewExists(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Sqlite - viewExists()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Sqlite();
+
+        $actual = $dialect->viewExists(
+            'view',
+            $schema
+        );
+
+        $I->assertInternalType(
+            'string',
+            $actual
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getViewExistsFixtures(): array
+    {
+        return [
+            [
+                null,
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
+                "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
+            ],
+
+            [
+                'schema',
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
+                "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
+            ],
+        ];
     }
 }

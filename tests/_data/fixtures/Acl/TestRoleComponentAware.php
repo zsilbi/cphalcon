@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -35,29 +35,18 @@ class TestRoleComponentAware implements RoleAware, ComponentAware
      */
     protected $roleName;
 
-    /**
-     * @param $user
-     * @param $componentName
-     * @param $roleName
-     */
-    public function __construct($user, $componentName, $roleName)
+    public function __construct($user, string $componentName, string $roleName)
     {
-        $this->user         = $user;
+        $this->user          = $user;
         $this->componentName = $componentName;
-        $this->roleName     = $roleName;
+        $this->roleName      = $roleName;
     }
 
-    /**
-     * @return string
-     */
     public function getComponentName(): string
     {
         return $this->componentName;
     }
 
-    /**
-     * @return string
-     */
     public function getRoleName(): string
     {
         return $this->roleName;

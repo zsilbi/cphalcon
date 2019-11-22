@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -15,12 +15,6 @@ use Phalcon\Mvc\Model;
 
 class RobottersDeles extends Model
 {
-
-    public function getSource(): string
-    {
-        return 'robots_parts';
-    }
-
     public function columnMap()
     {
         return [
@@ -32,15 +26,26 @@ class RobottersDeles extends Model
 
     public function initialize()
     {
+        $this->setSource('robots_parts');
 
-        $this->belongsTo('delesCode', Deles::class, 'code', [
-            'foreignKey' => true,
-        ]);
+        $this->belongsTo(
+            'delesCode',
+            Deles::class,
+            'code',
+            [
+                'foreignKey' => true,
+            ]
+        );
 
-        $this->belongsTo('robottersCode', Robotters::class, 'code', [
-            'foreignKey' => [
-                'message' => 'The robotters code does not exist',
-            ],
-        ]);
+        $this->belongsTo(
+            'robottersCode',
+            Robotters::class,
+            'code',
+            [
+                'foreignKey' => [
+                    'message' => 'The robotters code does not exist',
+                ],
+            ]
+        );
     }
 }

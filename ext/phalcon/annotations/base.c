@@ -1,21 +1,11 @@
-
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/* base.c
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 const phannot_token_names phannot_tokens[] =
 {
@@ -224,15 +214,6 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 
 	smart_str_0(&processed_str);
 
-#if PHP_VERSION_ID < 70000
-	if (processed_str.len) {
-		*ret     = processed_str.c;
-		*ret_len = processed_str.len;
-	} else {
-		*ret     = NULL;
-		*ret_len = 0;
-	}
-#else
 	if (processed_str.s) {
 		*ret     = estrndup(ZSTR_VAL(processed_str.s), ZSTR_LEN(processed_str.s));
 		*ret_len = ZSTR_LEN(processed_str.s);
@@ -241,7 +222,6 @@ static void phannot_remove_comment_separators(char **ret, int *ret_len, const ch
 		*ret     = NULL;
 		*ret_len = 0;
 	}
-#endif
 }
 
 /**
@@ -302,9 +282,6 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	parser_status->status = PHANNOT_PARSING_OK;
 	parser_status->scanner_state = state;
-#if PHP_VERSION_ID < 70000
-	parser_status->ret = NULL;
-#endif
 	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
 
@@ -452,17 +429,7 @@ int phannot_internal_parse_annotations(zval **result, const char *comment, int c
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHANNOT_PARSING_OK) {
-#if PHP_VERSION_ID < 70000
-			if (parser_status->ret) {
-				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
-				ZVAL_NULL(parser_status->ret);
-				zval_ptr_dtor(&parser_status->ret);
-			} else {
-				array_init(*result);
-			}
-#else
 			ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
-#endif
 		}
 	}
 

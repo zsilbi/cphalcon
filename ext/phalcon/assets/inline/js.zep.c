@@ -16,20 +16,19 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Inline\Js
- *
- * Represents an inline Javascript
+ * Represents an inline JavaScript
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Js) {
 
@@ -40,12 +39,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Js) {
 }
 
 /**
- * Phalcon\Assets\Inline\Js
- *
- * @param array attributes
+ * Phalcon\Assets\Inline\Js constructor
  */
 PHP_METHOD(Phalcon_Assets_Inline_Js, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_bool filter;
@@ -79,7 +77,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Js, __construct) {
 
 	if (Z_TYPE_P(attributes) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_create_array(&_0$$3, 1, 0 TSRMLS_CC);
+		zephir_create_array(&_0$$3, 1, 0);
 		add_assoc_stringl_ex(&_0$$3, SL("type"), SL("text/javascript"));
 		ZEPHIR_CPY_WRT(attributes, &_0$$3);
 	}

@@ -50,7 +50,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstracta
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_process, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_process, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_process, 0, 0, 1)
+#define arginfo_phalcon_logger_adapter_abstractadapter_process NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
 ZEND_END_ARG_INFO()
 
@@ -76,7 +86,7 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, commit, arginfo_phalcon_logger_adapter_abstractadapter_commit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter, arginfo_phalcon_logger_adapter_abstractadapter_getformatter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, inTransaction, arginfo_phalcon_logger_adapter_abstractadapter_intransaction, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, process, arginfo_phalcon_logger_adapter_abstractadapter_process, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, process, arginfo_phalcon_logger_adapter_abstractadapter_process, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, rollback, arginfo_phalcon_logger_adapter_abstractadapter_rollback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter, arginfo_phalcon_logger_adapter_abstractadapter_setformatter, ZEND_ACC_PUBLIC)
 	PHP_FE_END

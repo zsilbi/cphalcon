@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Security;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use UnitTester;
+use function session_destroy;
+use function session_start;
+use function session_status;
 
-/**
- * Class GetRequestTokenCest
- */
 class GetRequestTokenCest
 {
     use DiTrait;
@@ -42,29 +42,34 @@ class GetRequestTokenCest
     public function _after(UnitTester $I)
     {
         if (true === $this->shouldStopSession) {
-            @\session_destroy();
+            @session_destroy();
         }
     }
 
-    private function startSession(): void
+    /**
+     * Tests Phalcon\Security :: getRequestToken() and getSessionToken() without session initialization
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-02
+     */
+    public function securityGetTokensWithoutSessionInitialization(UnitTester $I)
     {
-        if (PHP_SESSION_ACTIVE !== \session_status()) {
-            @\session_start();
-        }
+        $I->wantToTest('Security - getRequestToken() and getSessionToken() without session initialization');
 
-        if (!isset($_SESSION)) {
-            $_SESSION = [];
-        }
+        $this->startSession();
 
-        $this->shouldStopSession = true;
+        $container = $this->getDI();
+        $security = new Security();
+        $security->setDI($container);
+
+        $I->assertNull($security->getSessionToken());
+        $I->assertNull($security->getRequestToken());
     }
 
     /**
      * Tests Phalcon\Security :: getRequestToken() and getSessionToken()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function securityGetRequestTokenAndGetSessionToken(UnitTester $I)
@@ -72,6 +77,7 @@ class GetRequestTokenCest
         $I->wantToTest('Security - getRequestToken() and getSessionToken()');
 
         $this->startSession();
+
         $container = $this->getDI();
 
         // Initialize session.
@@ -83,26 +89,69 @@ class GetRequestTokenCest
 
         // Reinitialize object like if it's a new request.
         $security = new Security();
+
         $security->setDI($container);
+
         $requestToken = $security->getRequestToken();
         $sessionToken = $security->getSessionToken();
         $tokenKey     = $security->getTokenKey();
         $token        = $security->getToken();
 
         $I->assertEquals($sessionToken, $requestToken);
+
         $I->assertNotEquals($token, $sessionToken);
-        $I->assertEquals($security->getRequestToken(), $requestToken);
-        $I->assertNotEquals($token, $security->getRequestToken());
 
-        $_POST = [$tokenKey => $requestToken];
-        $I->assertTrue($security->checkToken(null, null, false));
+        $I->assertEquals(
+            $requestToken,
+            $security->getRequestToken()
+        );
 
-        $_POST = [$tokenKey => $token];
-        $I->assertFalse($security->checkToken(null, null, false));
+        $I->assertNotEquals(
+            $token,
+            $security->getRequestToken()
+        );
 
-        $I->assertFalse($security->checkToken());
+
+        $_POST = [
+            $tokenKey => $requestToken,
+        ];
+
+        $I->assertTrue(
+            $security->checkToken(null, null, false)
+        );
+
+
+        $_POST = [
+            $tokenKey => $token,
+        ];
+
+        $I->assertFalse(
+            $security->checkToken(null, null, false)
+        );
+
+        $I->assertFalse(
+            $security->checkToken()
+        );
+
 
         $security->destroyToken();
-        $I->assertNotEquals($security->getRequestToken(), $requestToken);
+
+        $I->assertNotEquals(
+            $requestToken,
+            $security->getRequestToken()
+        );
+    }
+
+    private function startSession(): void
+    {
+        if (PHP_SESSION_ACTIVE !== session_status()) {
+            @session_start();
+        }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
+
+        $this->shouldStopSession = true;
     }
 }

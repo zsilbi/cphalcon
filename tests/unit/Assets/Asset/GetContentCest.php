@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,47 +12,53 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: getContent()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetGetContentCss(UnitTester $I)
+    public function assetsAssetGetContent(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - getContent()');
-        $asset = new Asset('css', 'assets/assets/1198.css');
 
-        $expected = file_get_contents(dataFolder('assets/assets/1198.css'));
-        $actual   = $asset->getContent(dataFolder());
-        $I->assertEquals($expected, $actual);
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
+
+        $I->openFile(
+            dataDir(
+                $example['path']
+            )
+        );
+
+        $I->seeFileContentsEqual(
+            $asset->getContent(
+                dataDir()
+            )
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: getContent()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetContentJs(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getContent()');
-        $asset = new Asset('js', 'assets/assets/signup.js');
-
-        $expected = file_get_contents(dataFolder('assets/assets/signup.js'));
-        $actual   = $asset->getContent(dataFolder());
-        $I->assertEquals($expected, $actual);
+        return [
+            [
+                'type' => 'css',
+                'path' => 'assets/assets/1198.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'assets/assets/signup.js',
+            ],
+        ];
     }
 }

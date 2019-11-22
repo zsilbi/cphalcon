@@ -25,14 +25,12 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Messages\Messages
- *
  * Represents a collection of messages
  */
 ZEPHIR_INIT_CLASS(Phalcon_Messages_Messages) {
@@ -42,17 +40,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Messages) {
 	/**
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_messages_messages_ce, SL("position"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_messages_messages_ce, SL("position"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_messages_messages_ce, SL("messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_messages_messages_ce, SL("messages"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_messages_messages_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
-	zend_class_implements(phalcon_messages_messages_ce TSRMLS_CC, 1, spl_ce_Countable);
-	zend_class_implements(phalcon_messages_messages_ce TSRMLS_CC, 1, zend_ce_iterator);
-	zend_class_implements(phalcon_messages_messages_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_messages_messages_ce, 1, zend_ce_arrayaccess);
+	zend_class_implements(phalcon_messages_messages_ce, 1, spl_ce_Countable);
+	zend_class_implements(phalcon_messages_messages_ce, 1, zend_ce_iterator);
+	zend_class_implements(phalcon_messages_messages_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
 	return SUCCESS;
 
 }
@@ -62,6 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Messages) {
  */
 PHP_METHOD(Phalcon_Messages_Messages, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *messages_param = NULL;
 	zval messages;
 	zval *this_ptr = getThis();
@@ -87,11 +86,11 @@ PHP_METHOD(Phalcon_Messages_Messages, __construct) {
 /**
  * Appends a message to the collection
  *
- *<code>
+ *```php
  * $messages->appendMessage(
  *     new \Phalcon\Messages\Message("This is a message")
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Messages_Messages, appendMessage) {
 
@@ -100,7 +99,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessage) {
 
 	ZVAL_UNDEF(&message_sub);
 
-	zephir_fetch_params(0, 1, 0, &message);
+	zephir_fetch_params_without_memory_grow(1, 0, &message);
 
 
 
@@ -111,15 +110,16 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessage) {
 /**
  * Appends an array of messages to the collection
  *
- *<code>
+ *```php
  * $messages->appendMessages($messagesArray);
- *</code>
+ *```
  *
  * @param \Phalcon\Messages\MessageInterface[] messages
  */
 PHP_METHOD(Phalcon_Messages_Messages, appendMessages) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *messages, messages_sub, currentMessages, finalMessages, message, _1$$7;
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessages) {
 		_0 = Z_TYPE_P(messages) != IS_OBJECT;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be array or object", "phalcon/messages/messages.zep", 70);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be array or object", "phalcon/Messages/Messages.zep", 69);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&currentMessages);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessages) {
 	if (Z_TYPE_P(messages) == IS_ARRAY) {
 		if (Z_TYPE_P(&currentMessages) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(&finalMessages);
-			zephir_fast_array_merge(&finalMessages, &currentMessages, messages TSRMLS_CC);
+			zephir_fast_array_merge(&finalMessages, &currentMessages, messages);
 		} else {
 			ZEPHIR_CPY_WRT(&finalMessages, messages);
 		}
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Messages_Messages, count) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	RETURN_LONG(zephir_fast_count_int(&_0 TSRMLS_CC));
+	RETURN_LONG(zephir_fast_count_int(&_0));
 
 }
 
@@ -197,6 +197,7 @@ PHP_METHOD(Phalcon_Messages_Messages, count) {
 PHP_METHOD(Phalcon_Messages_Messages, current) {
 
 	zval _0, _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -208,7 +209,7 @@ PHP_METHOD(Phalcon_Messages_Messages, current) {
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("position"), PH_NOISY_CC);
-	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/messages/messages.zep", 117 TSRMLS_CC);
+	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Messages/Messages.zep", 117);
 	RETURN_CTOR(&_1);
 
 }
@@ -218,6 +219,7 @@ PHP_METHOD(Phalcon_Messages_Messages, current) {
  */
 PHP_METHOD(Phalcon_Messages_Messages, filter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *fieldName_param = NULL, filtered, messages, message, _0, *_1$$3, _2$$3, _3$$5, _4$$8;
 	zval fieldName;
@@ -236,7 +238,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 	zephir_fetch_params(1, 1, 0, &fieldName_param);
 
 	if (UNEXPECTED(Z_TYPE_P(fieldName_param) != IS_STRING && Z_TYPE_P(fieldName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'fieldName' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'fieldName' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(fieldName_param) == IS_STRING)) {
@@ -252,17 +254,17 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&messages, &_0);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
-		zephir_is_iterable(&messages, 0, "phalcon/messages/messages.zep", 145);
+		zephir_is_iterable(&messages, 0, "phalcon/Messages/Messages.zep", 145);
 		if (Z_TYPE_P(&messages) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&messages), _1$$3)
 			{
 				ZEPHIR_INIT_NVAR(&message);
 				ZVAL_COPY(&message, _1$$3);
-				if ((zephir_method_exists_ex(&message, SL("getfield") TSRMLS_CC) == SUCCESS)) {
+				if ((zephir_method_exists_ex(&message, SL("getfield")) == SUCCESS)) {
 					ZEPHIR_CALL_METHOD(&_3$$5, &message, "getfield", NULL, 0);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_EQUAL(&fieldName, &_3$$5)) {
-						zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/messages/messages.zep", 141);
+						zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 141);
 					}
 				}
 			} ZEND_HASH_FOREACH_END();
@@ -277,11 +279,11 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 				}
 				ZEPHIR_CALL_METHOD(&message, &messages, "current", NULL, 0);
 				zephir_check_call_status();
-					if ((zephir_method_exists_ex(&message, SL("getfield") TSRMLS_CC) == SUCCESS)) {
+					if ((zephir_method_exists_ex(&message, SL("getfield")) == SUCCESS)) {
 						ZEPHIR_CALL_METHOD(&_4$$8, &message, "getfield", NULL, 0);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_EQUAL(&fieldName, &_4$$8)) {
-							zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/messages/messages.zep", 141);
+							zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 141);
 						}
 					}
 				ZEPHIR_CALL_METHOD(NULL, &messages, "next", NULL, 0);
@@ -298,31 +300,33 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
  * Returns serialised message objects as array for json_encode. Calls
  * jsonSerialize on each object if present
  *
- *<code>
+ *```php
  * $data = $messages->jsonSerialize();
  * echo json_encode($data);
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 
 	zend_bool _3$$3, _5$$6;
-	zval records, message, _0, *_1, _2, _4$$4, _6$$7;
+	zval records;
+	zval message, _0, *_1, _2, _4$$4, _6$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&records);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&records);
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/messages/messages.zep", 172);
+	zephir_is_iterable(&_0, 0, "phalcon/Messages/Messages.zep", 174);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
@@ -330,14 +334,14 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 			ZVAL_COPY(&message, _1);
 			_3$$3 = Z_TYPE_P(&message) == IS_OBJECT;
 			if (_3$$3) {
-				_3$$3 = (zephir_method_exists_ex(&message, SL("jsonserialize") TSRMLS_CC) == SUCCESS);
+				_3$$3 = (zephir_method_exists_ex(&message, SL("jsonserialize")) == SUCCESS);
 			}
 			if (_3$$3) {
 				ZEPHIR_CALL_METHOD(&_4$$4, &message, "jsonserialize", NULL, 0);
 				zephir_check_call_status();
-				zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/messages/messages.zep", 166);
+				zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Messages/Messages.zep", 168);
 			} else {
-				zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/messages/messages.zep", 168);
+				zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 170);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -353,21 +357,21 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 			zephir_check_call_status();
 				_5$$6 = Z_TYPE_P(&message) == IS_OBJECT;
 				if (_5$$6) {
-					_5$$6 = (zephir_method_exists_ex(&message, SL("jsonserialize") TSRMLS_CC) == SUCCESS);
+					_5$$6 = (zephir_method_exists_ex(&message, SL("jsonserialize")) == SUCCESS);
 				}
 				if (_5$$6) {
 					ZEPHIR_CALL_METHOD(&_6$$7, &message, "jsonserialize", NULL, 0);
 					zephir_check_call_status();
-					zephir_array_append(&records, &_6$$7, PH_SEPARATE, "phalcon/messages/messages.zep", 166);
+					zephir_array_append(&records, &_6$$7, PH_SEPARATE, "phalcon/Messages/Messages.zep", 168);
 				} else {
-					zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/messages/messages.zep", 168);
+					zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 170);
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
 			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&message);
-	RETURN_CCTOR(&records);
+	RETURN_CTOR(&records);
 
 }
 
@@ -391,18 +395,18 @@ PHP_METHOD(Phalcon_Messages_Messages, next) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("position") TSRMLS_CC));
+	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("position")));
 
 }
 
 /**
  * Checks if an index exists
  *
- *<code>
+ *```php
  * var_dump(
  *     isset($message["database"])
  * );
- *</code>
+ *```
  *
  * @param int index
  */
@@ -414,7 +418,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetExists) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &index);
+	zephir_fetch_params_without_memory_grow(1, 0, &index);
 
 
 
@@ -426,14 +430,15 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetExists) {
 /**
  * Gets an attribute a message using the array syntax
  *
- *<code>
+ *```php
  * print_r(
  *     $messages[0]
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Messages_Messages, offsetGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index, index_sub, message, returnValue, _0;
 	zval *this_ptr = getThis();
 
@@ -450,7 +455,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetGet) {
 	ZEPHIR_INIT_VAR(&returnValue);
 	ZVAL_NULL(&returnValue);
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	if (zephir_array_isset_fetch(&message, &_0, index, 1 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&message, &_0, index, 1)) {
 		ZEPHIR_CPY_WRT(&returnValue, &message);
 	}
 	RETURN_CCTOR(&returnValue);
@@ -460,9 +465,9 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetGet) {
 /**
  * Sets an attribute using the array-syntax
  *
- *<code>
+ *```php
  * $messages[0] = new \Phalcon\Messages\Message("This is a message");
- *</code>
+ *```
  *
  * @param \Phalcon\Messages\Message message
  */
@@ -474,12 +479,12 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetSet) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&message_sub);
 
-	zephir_fetch_params(0, 2, 0, &index, &message);
+	zephir_fetch_params_without_memory_grow(2, 0, &index, &message);
 
 
 
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_messages_exception_ce, "The message must be an object", "phalcon/messages/messages.zep", 239);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_messages_exception_ce, "The message must be an object", "phalcon/Messages/Messages.zep", 241);
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("messages"), index, message);
@@ -489,12 +494,13 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetSet) {
 /**
  * Removes a message from the list
  *
- *<code>
+ *```php
  * unset($message["database"]);
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Messages_Messages, offsetUnset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index, index_sub, _0, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
@@ -514,7 +520,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetUnset) {
 		zephir_read_property(&_1$$3, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, 1);
 		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 301, &_1$$3, index, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 413, &_1$$3, index, &_2$$3);
 		ZEPHIR_UNREF(&_1$$3);
 		zephir_check_call_status();
 	}

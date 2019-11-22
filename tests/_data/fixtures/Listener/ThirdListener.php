@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,28 +12,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Listener;
 
-use ComponentX;
-use function dataFolder;
 use Phalcon\Events\Event;
+use Phalcon\Test\Fixtures\Events\ComponentX;
 use Phalcon\Test\Unit\Events\ManagerCest;
 use UnitTester;
 
 class ThirdListener
 {
-    /** @var  ManagerCest */
+    /** @var ManagerCest */
     protected $testCase;
 
-    /** @var  UnitTester */
+    /** @var UnitTester */
     protected $tester;
 
     protected $before = 0;
 
     protected $after = 0;
-
-    public function __construct()
-    {
-        include_once dataFolder('fixtures/Events/ComponentX.php');
-    }
 
     public function setTestCase(ManagerCest $testCase, UnitTester $tester)
     {
@@ -43,18 +37,40 @@ class ThirdListener
 
     public function beforeAction($event, $component, $data)
     {
-        $this->tester->assertInstanceOf(Event::class, $event);
-        $this->tester->assertInstanceOf(ComponentX::class, $component);
-        $this->tester->assertEquals($data, 'extra data');
+        $this->tester->assertInstanceOf(
+            Event::class,
+            $event
+        );
+
+        $this->tester->assertInstanceOf(
+            ComponentX::class,
+            $component
+        );
+
+        $this->tester->assertEquals(
+            'extra data',
+            $data
+        );
 
         $this->before++;
     }
 
     public function afterAction($event, $component)
     {
-        $this->tester->assertInstanceOf(Event::class, $event);
-        $this->tester->assertInstanceOf(ComponentX::class, $component);
-        $this->tester->assertEquals($event->getData(), ['extra', 'data']);
+        $this->tester->assertInstanceOf(
+            Event::class,
+            $event
+        );
+
+        $this->tester->assertInstanceOf(
+            ComponentX::class,
+            $component
+        );
+
+        $this->tester->assertEquals(
+            ['extra', 'data'],
+            $event->getData()
+        );
 
         $this->after++;
 

@@ -15,7 +15,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -35,10 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_FormatterInterface) {
 
 /**
  * Applies a format to an item
- *
- * @param <Item> item
- *
- * @return string|array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_Formatter_FormatterInterface, format);
 

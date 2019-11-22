@@ -5,25 +5,23 @@ namespace Phalcon\Test\Integration\Mvc;
 use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\Model\Manager;
-use Phalcon\Mvc\Model\Metadata\Memory;
+use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Controllers\ViewRequestController;
-use Test4Controller;
 
 /**
  * \Phalcon\Test\Integration\Mvc\ControllerCest
  * Tests the Phalcon\Mvc\Controller component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalconphp.com
- * @author        Andres Gutierrez <andres@phalconphp.com>
- * @author        Phalcon Team <team@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc
+ * @link          http://www.phalcon.io
+ * @author        Andres Gutierrez <andres@phalcon.io>
+ * @author        Phalcon Team <team@phalcon.io>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
+ * through the world-wide-web, please send an email to license@phalcon.io
  * so that we can send you a copy immediately.
  */
 class ControllersCest
@@ -35,31 +33,46 @@ class ControllersCest
 
     /**
      * Executed before each test
-     *
-     * @param IntegrationTester $I
      */
     public function _before(IntegrationTester $I)
     {
-        Di::setDefault($I->getApplication()->getDI());
+        Di::setDefault(
+            $I->getApplication()->getDI()
+        );
 
         $this->modelsManager = $I->getApplication()->getDI()->getShared('modelsManager');
 
-        $I->haveServiceInDi('modelsMetadata', function () {
-            return new Memory;
-        }, true);
+        $I->haveServiceInDi(
+            'modelsMetadata',
+            function () {
+                return new Memory();
+            },
+            true
+        );
     }
 
     public function testControllers(IntegrationTester $I)
     {
-        $controller = new ViewRequestController();
-        $controller->setDI(Di::getDefault());
+        $di = Di::getDefault();
 
-        $view = Di::getDefault()->getShared('view');
+        $controller = new ViewRequestController();
+
+        $controller->setDI($di);
+
+        $view = $di->getShared('view');
 
         $_POST['email'] = ';ans@ecom.com';
-        $I->assertEquals($controller->requestAction(), 'ans@ecom.com');
+
+        $I->assertEquals(
+            'ans@ecom.com',
+            $controller->requestAction()
+        );
 
         $controller->viewAction();
-        $I->assertEquals(count($view->getParamsToView()), 1);
+
+        $I->assertCount(
+            1,
+            $view->getParamsToView()
+        );
     }
 }

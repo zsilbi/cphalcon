@@ -7,6 +7,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create);
 PHP_METHOD(Phalcon_Forms_Manager, get);
 PHP_METHOD(Phalcon_Forms_Manager, has);
 PHP_METHOD(Phalcon_Forms_Manager, set);
+zend_object *zephir_init_properties_Phalcon_Forms_Manager(zend_class_entry *class_type TSRMLS_DC);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_manager_create, 0, 1, Phalcon\\Forms\\Form, 0)
@@ -46,9 +47,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_manager_has, 0, 1,
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_manager_set, 0, 2, Phalcon\\Forms\\FormManager, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_manager_set, 0, 2, Phalcon\\Forms\\Manager, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_manager_set, 0, 2, IS_OBJECT, "Phalcon\\Forms\\FormManager", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_manager_set, 0, 2, IS_OBJECT, "Phalcon\\Forms\\Manager", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)

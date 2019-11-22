@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -30,13 +30,15 @@ class PhalconFilterAlphanumOptimizer extends OptimizerAbstract
      */
     public function optimize(array $expression, Call $call, CompilationContext $context)
     {
-
         if (!isset($expression['parameters'])) {
             return false;
         }
 
         if (count($expression['parameters']) != 1) {
-            throw new CompilerException("phalcon_filter_alphanum only accepts one parameter", $expression);
+            throw new CompilerException(
+                "phalcon_filter_alphanum only accepts one parameter",
+                $expression
+            );
         }
 
         /**
@@ -45,8 +47,12 @@ class PhalconFilterAlphanumOptimizer extends OptimizerAbstract
         $call->processExpectedReturn($context);
 
         $symbolVariable = $call->getSymbolVariable();
+
         if ($symbolVariable->getType() != 'variable') {
-            throw new CompilerException("Returned values by functions can only be assigned to variant variables", $expression);
+            throw new CompilerException(
+                "Returned values by functions can only be assigned to variant variables",
+                $expression
+            );
         }
 
         if ($call->mustInitSymbolVariable()) {
@@ -55,11 +61,22 @@ class PhalconFilterAlphanumOptimizer extends OptimizerAbstract
 
         $context->headersManager->add('kernel/filter');
 
-        $resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
+        $resolvedParams = $call->getReadOnlyResolvedParams(
+            $expression['parameters'],
+            $context,
+            $expression
+        );
 
         $symbol = $context->backend->getVariableCode($symbolVariable);
-        $context->codePrinter->output('zephir_filter_alphanum(' . $symbol . ', ' . $resolvedParams[0] . ');');
 
-        return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
+        $context->codePrinter->output(
+            'zephir_filter_alphanum(' . $symbol . ', ' . $resolvedParams[0] . ');'
+        );
+
+        return new CompiledExpression(
+            'variable',
+            $symbolVariable->getRealName(),
+            $expression
+        );
     }
 }

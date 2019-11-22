@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,15 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits\Cache;
 
+use function cacheDir;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
-use function cacheFolder;
 
-/**
- * Trait FileTrait
- *
- * @package Phalcon\Test\Fixtures\Traits\Cache
- */
 trait FileTrait
 {
     /**
@@ -30,11 +25,12 @@ trait FileTrait
 
     public function _before()
     {
-        $frontCache  = new Data();
+        $frontCache = new Data();
+
         $this->cache = new File(
             $frontCache,
             [
-                'cacheDir' => cacheFolder(),
+                'storageDir' => cacheDir(),
             ]
         );
     }

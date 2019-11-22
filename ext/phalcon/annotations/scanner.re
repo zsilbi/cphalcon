@@ -1,21 +1,11 @@
-
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
-*/
+/* scanner.re
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 #include "php_phalcon.h"
 
@@ -67,7 +57,7 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 			return 0;
 		}
 
-		DOUBLE = ([\-]?[0-9]+[\.][0-9]+);
+		DOUBLE = ([\-]?[0-9]+[.][0-9]+);
 		DOUBLE {
 			token->opcode = PHANNOT_T_DOUBLE;
 			token->value = estrndup(start, YYCURSOR - start);

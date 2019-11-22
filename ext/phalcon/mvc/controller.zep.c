@@ -20,7 +20,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -28,13 +28,15 @@
 /**
  * Phalcon\Mvc\Controller
  *
- * Every application controller should extend this class that encapsulates all the controller functionality
+ * Every application controller should extend this class that encapsulates all
+ * the controller functionality
  *
- * The controllers provide the “flow” between models and views. Controllers are responsible
- * for processing the incoming requests from the web browser, interrogating the models for data,
- * and passing that data on to the views for presentation.
+ * The controllers provide the “flow” between models and views. Controllers are
+ * responsible for processing the incoming requests from the web browser,
+ * interrogating the models for data, and passing that data on to the views for
+ * presentation.
  *
- *<code>
+ *```php
  * <?php
  *
  * class PeopleController extends \Phalcon\Mvc\Controller
@@ -61,13 +63,13 @@
  *         );
  *     }
  * }
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Controller, phalcon, mvc_controller, phalcon_di_injectable_ce, phalcon_mvc_controller_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_class_implements(phalcon_mvc_controller_ce TSRMLS_CC, 1, phalcon_mvc_controllerinterface_ce);
+	zend_class_implements(phalcon_mvc_controller_ce, 1, phalcon_mvc_controllerinterface_ce);
 	return SUCCESS;
 
 }
@@ -77,13 +79,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller) {
  */
 PHP_METHOD(Phalcon_Mvc_Controller, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 
 	ZEPHIR_MM_GROW();
 
-	if ((zephir_method_exists_ex(this_ptr, SL("onconstruct") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("onconstruct")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "onconstruct", NULL, 0);
 		zephir_check_call_status();
 	}

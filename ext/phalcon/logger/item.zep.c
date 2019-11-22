@@ -20,7 +20,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -35,35 +35,35 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Item, phalcon, logger_item, phalcon_logger_item_method_entry, 0);
 
-	zend_declare_property_null(phalcon_logger_item_ce, SL("context"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("context"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Log message
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("message"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("message"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Log message
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("name"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Log timestamp
 	 *
 	 * @var integer
 	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("time"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("time"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Log type
 	 *
 	 * @var integer
 	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("type"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -128,15 +128,10 @@ PHP_METHOD(Phalcon_Logger_Item, getType) {
 
 /**
  * Phalcon\Logger\Item constructor
- *
- * @param string message
- * @param string name
- * @param int    type
- * @param int    time
- * @param array  context
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long type, time;
 	zval *message_param = NULL, *name_param = NULL, *type_param = NULL, *time_param = NULL, *context = NULL, context_sub, _0;
 	zval message, name;

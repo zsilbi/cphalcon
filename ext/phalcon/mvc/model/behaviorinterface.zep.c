@@ -15,7 +15,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -34,12 +34,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BehaviorInterface) {
 }
 
 /**
- * This method receives the notifications from the EventsManager
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, notify);
-
-/**
  * Calls a method when it's missing in the model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, missingMethod);
+
+/**
+ * This method receives the notifications from the EventsManager
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BehaviorInterface, notify);
 

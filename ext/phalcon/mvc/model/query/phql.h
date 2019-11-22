@@ -1,21 +1,11 @@
-
-/*
- +------------------------------------------------------------------------+
- | Phalcon Framework                                                      |
- +------------------------------------------------------------------------+
- | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)       |
- +------------------------------------------------------------------------+
- | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file docs/LICENSE.txt.                        |
- |                                                                        |
- | If you did not receive a copy of the license and are unable to         |
- | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
- +------------------------------------------------------------------------+
- | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
- |          Eduar Carvajal <eduar@phalconphp.com>                         |
- +------------------------------------------------------------------------+
-*/
+/* phql.h
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 #ifndef PHALCON_MVC_MODEL_QUERY_PHQL_H
 #define PHALCON_MVC_MODEL_QUERY_PHQL_H
@@ -28,11 +18,7 @@ typedef struct _phql_parser_token {
 } phql_parser_token;
 
 typedef struct _phql_parser_status {
-#if PHP_VERSION_ID < 70000
-	zval *ret;
-#else
 	zval ret;
-#endif
 	char* phql;
 	unsigned int phql_length;
 	int status;

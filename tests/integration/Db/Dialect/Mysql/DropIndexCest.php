@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,48 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class DropIndexCest
- */
 class DropIndexCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: dropIndex()
      *
-     * @param IntegrationTester $I
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider getDropIndexFixtures
      */
-    public function dbDialectMysqlDropIndex(IntegrationTester $I)
+    public function dbDialectMysqlDropIndex(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Mysql - dropIndex()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $index    = $example[1];
+        $expected = $example[2];
+
+        $dialect = new Mysql();
+
+        $actual = $dialect->dropIndex('table', $schema, $index);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDropIndexFixtures(): array
+    {
+        return [
+            [
+                '',
+                'index1',
+                'ALTER TABLE `table` DROP INDEX `index1`',
+            ],
+            [
+                'schema',
+                'index1',
+                'ALTER TABLE `schema`.`table` DROP INDEX `index1`',
+            ],
+        ];
     }
 }

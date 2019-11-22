@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -15,39 +15,40 @@ namespace Phalcon\Test\Integration\Url;
 use IntegrationTester;
 use Phalcon\Url;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Url :: get()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function urlGet(IntegrationTester $I)
     {
-        $I->wantToTest("Url - get()");
+        $I->wantToTest('Url - get()');
+
         $url = new Url();
 
-        $url->setBaseUri('https://phalconphp.com');
+        $url->setBaseUri('https://phalcon.io');
 
-        $expected = 'https://phalconphp.com';
-        $actual   = $url->get();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalcon.io',
+            $url->get()
+        );
 
-        $actual = $url->get('');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalcon.io',
+            $url->get('')
+        );
 
-        $expected = 'https://phalconphp.com/';
-        $actual   = $url->get('/');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalcon.io/',
+            $url->get('/')
+        );
 
-        $expected = 'https://phalconphp.com/en/team';
-        $actual   = $url->get('/en/team');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalcon.io/en/team',
+            $url->get('/en/team')
+        );
     }
 }

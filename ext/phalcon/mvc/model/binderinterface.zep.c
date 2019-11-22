@@ -15,7 +15,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -34,6 +34,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BinderInterface) {
 }
 
 /**
+ * Bind models into params in proper handler
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BinderInterface, bindToHandler);
+
+/**
  * Gets active bound models
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BinderInterface, getBoundModels);
@@ -47,9 +52,4 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BinderInterface, getCache);
  * Sets cache instance
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BinderInterface, setCache);
-
-/**
- * Bind models into params in proper handler
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_BinderInterface, bindToHandler);
 

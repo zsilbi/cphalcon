@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -16,24 +16,19 @@ use Phalcon\Debug;
 use UnitTester;
 use function sprintf;
 
-/**
- * Class GetCssSourcesCest
- */
 class GetCssSourcesCest
 {
     /**
      * Tests Phalcon\Debug :: getCssSources()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function debugGetCssSources(UnitTester $I)
     {
         $I->wantToTest('Debug - getCssSources()');
         $debug = new Debug();
-        $uri   = 'https://assets.phalconphp.com/debug/4.0.x/';
+        $uri   = 'https://assets.phalcon.io/debug/4.0.x/';
 
         $expected = sprintf(
             "<link rel='stylesheet' type='text/css' " .

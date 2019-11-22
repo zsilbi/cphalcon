@@ -15,7 +15,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -34,7 +34,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder_BindableInterface) {
 }
 
 /**
- * Return the model name or models names and parameters keys associated with this class
+ * Return the model name or models names and parameters keys associated with
+ * this class
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Binder_BindableInterface, getModelName);
 

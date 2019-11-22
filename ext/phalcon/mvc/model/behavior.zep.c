@@ -23,7 +23,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -37,9 +37,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Behavior, phalcon, mvc_model_behavior, phalcon_mvc_model_behavior_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_property_null(phalcon_mvc_model_behavior_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_mvc_model_behavior_ce, SL("options"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_mvc_model_behavior_ce TSRMLS_CC, 1, phalcon_mvc_model_behaviorinterface_ce);
+	zend_class_implements(phalcon_mvc_model_behavior_ce, 1, phalcon_mvc_model_behaviorinterface_ce);
 	return SUCCESS;
 
 }
@@ -49,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL;
 	zval options;
 	zval *this_ptr = getThis();
@@ -66,40 +70,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_options"), &options);
+	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Checks whether the behavior must take action on certain event
- */
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
-
-	zval *eventName_param = NULL, _0;
-	zval eventName;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&eventName);
-	ZVAL_UNDEF(&_0);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &eventName_param);
-
-	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string") TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(eventName_param) == IS_STRING)) {
-		zephir_get_strval(&eventName, eventName_param);
-	} else {
-		ZEPHIR_INIT_VAR(&eventName);
-		ZVAL_EMPTY_STRING(&eventName);
-	}
-
-
-	zephir_read_property(&_0, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
-	RETURN_MM_BOOL(zephir_array_isset(&_0, &eventName));
 
 }
 
@@ -110,13 +82,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 
-	zval *eventName_param = NULL, options, eventOptions;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *eventName_param = NULL, options, eventOptions, _0;
 	zval eventName;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventName);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&eventOptions);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &eventName_param);
@@ -126,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 		ZVAL_STRING(&eventName, "");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(eventName_param) == IS_STRING)) {
@@ -138,36 +112,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 	}
 
 
-	zephir_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&options, &_0);
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&eventName, "")) {
-		if (zephir_array_isset_fetch(&eventOptions, &options, &eventName, 1 TSRMLS_CC)) {
-			RETURN_CTOR(&eventOptions);
+		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName, 1))) {
+			RETURN_MM_NULL();
 		}
-		RETURN_MM_NULL();
+		RETURN_CTOR(&eventOptions);
 	}
-	RETURN_CTOR(&options);
-
-}
-
-/**
- * This method receives the notifications from the EventsManager
- */
-PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify) {
-
-	zval *type_param = NULL, *model, model_sub;
-	zval type;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&type);
-	ZVAL_UNDEF(&model_sub);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &type_param, &model);
-
-	zephir_get_strval(&type, type_param);
-
-
-	RETURN_MM_NULL();
+	RETURN_CCTOR(&options);
 
 }
 
@@ -176,6 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval arguments;
 	zval method;
 	zval *model, model_sub, *method_param = NULL, *arguments_param = NULL;
@@ -195,6 +149,62 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, missingMethod) {
 	} else {
 		zephir_get_arrval(&arguments, arguments_param);
 	}
+
+
+	RETURN_MM_NULL();
+
+}
+
+/**
+ * Checks whether the behavior must take action on certain event
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
+
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *eventName_param = NULL, _0;
+	zval eventName;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&eventName);
+	ZVAL_UNDEF(&_0);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &eventName_param);
+
+	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(eventName_param) == IS_STRING)) {
+		zephir_get_strval(&eventName, eventName_param);
+	} else {
+		ZEPHIR_INIT_VAR(&eventName);
+		ZVAL_EMPTY_STRING(&eventName);
+	}
+
+
+	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
+	RETURN_MM_BOOL(zephir_array_isset(&_0, &eventName));
+
+}
+
+/**
+ * This method receives the notifications from the EventsManager
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify) {
+
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *type_param = NULL, *model, model_sub;
+	zval type;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&type);
+	ZVAL_UNDEF(&model_sub);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &type_param, &model);
+
+	zephir_get_strval(&type, type_param);
 
 
 	RETURN_MM_NULL();

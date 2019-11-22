@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,23 +13,53 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Router\Route;
+use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AttachCest
- */
 class AttachCest
 {
+    use RouterTrait;
+
     /**
      * Tests Phalcon\Mvc\Router :: attach()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/13326
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-03-24
      */
-    public function mvcRouterAttach(IntegrationTester $I)
+    public function shouldAttachRoute(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router - attach()');
-        $I->skipTest('Need implementation');
+
+        $router = $this->getRouter(false);
+
+
+
+        $I->assertCount(
+            0,
+            $router->getRoutes()
+        );
+
+
+
+        $router->attach(
+            new Route(
+                '/about',
+                'About::index',
+                [
+                    'GET',
+                    'HEAD',
+                ]
+            ),
+            Router::POSITION_FIRST
+        );
+
+
+
+        $I->assertCount(
+            1,
+            $router->getRoutes()
+        );
     }
 }

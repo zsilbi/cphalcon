@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,39 +13,45 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Dispatcher;
 
 use Codeception\Example;
-use UnitTester;
 use Phalcon\Mvc\Dispatcher;
+use UnitTester;
 
-/**
- * Class GetHandlerClassCest
- */
 class GetHandlerClassCest
 {
     /**
      * Tests Phalcon\Dispatcher :: getHandlerClass()
      *
-     * @param UnitTester $I
-     * @param array $entry
      * @dataProvider getTestCases
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      */
-    public function dispatcherGetHandlerClass(UnitTester $I, Example $entry)
+    public function dispatcherGetHandlerClass(UnitTester $I, Example $example)
     {
         $I->wantToTest('Dispatcher - getHandlerClass()');
 
         $dispatcher = new Dispatcher();
 
         // test the handler name
-        $dispatcher->setNamespaceName($entry[0]);
-        $dispatcher->setControllerName($entry[1]);
-        $dispatcher->setHandlerSuffix($entry[2]);
-        $actualHandler = $dispatcher->getHandlerClass();
-        $I->assertEquals($entry[3], $actualHandler);
+        $dispatcher->setNamespaceName(
+            $example[0]
+        );
+
+        $dispatcher->setControllerName(
+            $example[1]
+        );
+
+        $dispatcher->setHandlerSuffix(
+            $example[2]
+        );
+
+        $I->assertEquals(
+            $example[3],
+            $dispatcher->getHandlerClass()
+        );
     }
 
-    private function getTestCases()
+    private function getTestCases(): array
     {
         return [
             ['', 'hello', '', 'Hello'],

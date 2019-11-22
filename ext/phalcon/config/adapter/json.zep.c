@@ -19,35 +19,36 @@
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Config\Adapter\Json
- *
  * Reads JSON files and converts them to Phalcon\Config objects.
  *
  * Given the following configuration file:
  *
- *<code>
+ *```json
  * {"phalcon":{"baseuri":"\/phalcon\/"},"models":{"metadata":"memory"}}
- *</code>
+ *```
  *
  * You can read it as follows:
  *
- *<code>
- * $config = new Phalcon\Config\Adapter\Json("path/config.json");
+ *```php
+ * use Phalcon\Config\Adapter\Json;
+ *
+ * $config = new Json("path/config.json");
  *
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json) {
 
@@ -62,6 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *filePath_param = NULL, __$true, _1, _2;
@@ -77,7 +79,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 	zephir_fetch_params(1, 1, 0, &filePath_param);
 
 	if (UNEXPECTED(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(filePath_param) == IS_STRING)) {
@@ -90,7 +92,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
-	zephir_file_get_contents(&_2, &filePath TSRMLS_CC);
+	zephir_file_get_contents(&_2, &filePath);
 	zephir_json_decode(&_1, &_2, zephir_get_intval(&__$true) );
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", &_0, 0, &_1);
 	zephir_check_call_status();

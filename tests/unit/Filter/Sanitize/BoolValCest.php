@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -16,20 +16,14 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\BoolVal;
 use UnitTester;
 
-/**
- * Class BoolValCest
- */
 class BoolValCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\BoolVal :: __invoke()
      *
      * @dataProvider getData
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      */
     public function filterSanitizeBoolValInvoke(UnitTester $I, Example $example)
@@ -42,9 +36,6 @@ class BoolValCest
         $I->assertEquals($example[1], $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getData(): array
     {
         return [
@@ -52,6 +43,8 @@ class BoolValCest
             [0xFFA, true],
             ['1000', true],
             [null, false],
+            ['on', true],
+            ['off', false],
         ];
     }
 }

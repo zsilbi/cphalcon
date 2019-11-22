@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -17,9 +17,6 @@ use Phalcon\Db\Column;
 use Phalcon\Test\Fixtures\Traits\Db\PostgresqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class DescribeColumnsCest
- */
 class DescribeColumnsCest
 {
     use DiTrait;
@@ -28,63 +25,66 @@ class DescribeColumnsCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: describeColumns()
      *
-     * @param IntegrationTester $I
-     *
      * @issue  https://github.com/phalcon/phalcon-devtools/issues/853
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-09-28
      */
     public function dbAdapterPdoPostgresqlDescribeColumns(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - describeColumns()");
+
         $expected = [
-            Column::__set_state(
+            new Column(
+                'id',
                 [
-                    '_columnName'    => 'id',
-                    '_schemaName'    => null,
-                    '_type'          => 14,
-                    '_typeReference' => -1,
-                    '_typeValues'    => null,
-                    '_isNumeric'     => true,
-                    '_size'          => 0,
-                    '_scale'         => 0,
-                    '_default'       => "nextval('images_id_seq'::regclass)",
-                    '_unsigned'      => false,
-                    '_notNull'       => true,
-                    '_primary'       => false,
-                    '_autoIncrement' => true,
-                    '_first'         => true,
-                    '_after'         => null,
-                    '_bindType'      => 1,
+                    'type'          => 14,
+                    'typeReference' => -1,
+                    'typeValues'    => null,
+                    'isNumeric'     => true,
+                    'size'          => 0,
+                    'scale'         => 0,
+                    'default'       => "nextval('images_id_seq'::regclass)",
+                    'unsigned'      => false,
+                    'notNull'       => true,
+                    'primary'       => false,
+                    'autoIncrement' => true,
+                    'first'         => true,
+                    'after'         => null,
+                    'bindType'      => 1,
                 ]
             ),
-            Column::__set_state(
+            new Column(
+                'base64',
                 [
-                    '_columnName'    => 'base64',
-                    '_schemaName'    => null,
-                    '_type'          => 6,
-                    '_typeReference' => -1,
-                    '_typeValues'    => null,
-                    '_isNumeric'     => false,
-                    '_size'          => null,
-                    '_scale'         => 0,
-                    '_default'       => null,
-                    '_unsigned'      => false,
-                    '_notNull'       => false,
-                    '_primary'       => false,
-                    '_autoIncrement' => false,
-                    '_first'         => false,
-                    '_after'         => 'id',
-                    '_bindType'      => 2,
+                    'type'          => 6,
+                    'typeReference' => -1,
+                    'typeValues'    => null,
+                    'isNumeric'     => false,
+                    'size'          => null,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => false,
+                    'primary'       => false,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'id',
+                    'bindType'      => 2,
                 ]
             ),
         ];
 
+
         $actual = $this->connection->describeColumns('images');
+
         $I->assertEquals($expected, $actual);
 
-        $actual = $this->connection->describeColumns('images', env('DATA_POSTGRES_SCHEMA'));
+
+        $actual = $this->connection->describeColumns(
+            'images',
+            env('DATA_POSTGRES_SCHEMA')
+        );
+
         $I->assertEquals($expected, $actual);
     }
 }

@@ -12,13 +12,14 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -28,14 +29,14 @@
  *
  * Adapter to store logs in plain text files
  *
- *<code>
+ *```php
  * $logger = new \Phalcon\Logger\Adapter\Noop();
  *
  * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
  *
  * $logger->close();
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Noop) {
 
@@ -67,7 +68,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Noop, process) {
 
 	ZVAL_UNDEF(&item_sub);
 
-	zephir_fetch_params(0, 1, 0, &item);
+	zephir_fetch_params_without_memory_grow(1, 0, &item);
 
 
 

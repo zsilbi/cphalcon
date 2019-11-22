@@ -9,16 +9,15 @@ use Phalcon\Mvc\Controller;
  * Dispatcher Controller for testing different dispatch scenarios
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalconphp.com
- * @author        Andres Gutierrez <andres@phalconphp.com>
- * @author        Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc\Dispatcher\Helper
+ * @link          http://www.phalcon.io
+ * @author        Andres Gutierrez <andres@phalcon.io>
+ * @author        Nikolaos Dimopoulos <nikos@phalcon.io>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
+ * through the world-wide-web, please send an email to license@phalcon.io
  * so that we can send you a copy immediately.
  */
 class DispatcherTestDefaultTwoController extends Controller
@@ -54,25 +53,38 @@ class DispatcherTestDefaultTwoController extends Controller
     public function forwardLocalAction()
     {
         $this->trace('forwardLocalAction');
-        $this->getDI()->getShared('dispatcher')->forward([
-            'action' => 'index2',
-        ])
-        ;
+
+        $di = $this->getDI();
+
+        $dispatcher = $di->getShared('dispatcher');
+
+        $dispatcher->forward(
+            [
+                'action' => 'index2',
+            ]
+        );
     }
 
     public function forwardExternalAction()
     {
         $this->trace('forwardExternalAction');
-        $this->getDI()->getShared('dispatcher')->forward([
-            'controller' => 'dispatcher-test-default',
-            'action'     => 'index',
-        ])
-        ;
+
+        $di = $this->getDI();
+
+        $dispatcher = $di->getShared('dispatcher');
+
+        $dispatcher->forward(
+            [
+                'controller' => 'dispatcher-test-default',
+                'action'     => 'index',
+            ]
+        );
     }
 
     public function exceptionAction()
     {
         $this->trace('exceptionAction');
+
         throw new Exception('An exception occurred.');
     }
 

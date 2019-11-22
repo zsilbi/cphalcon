@@ -23,7 +23,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -42,10 +42,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_UpperWords) {
 }
 
 /**
- * @var mixed input The text to sanitize
+ * @var string input The text to sanitize
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input_param = NULL, _0$$3, _1$$3, _2;
 	zval input;
@@ -60,7 +61,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke) {
 	zephir_fetch_params(1, 1, 0, &input_param);
 
 	if (UNEXPECTED(Z_TYPE_P(input_param) != IS_STRING && Z_TYPE_P(input_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(input_param) == IS_STRING)) {
@@ -71,17 +72,17 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke) {
 	}
 
 
-	if (1 == (zephir_function_exists_ex(SL("mb_convert_case") TSRMLS_CC) == SUCCESS)) {
+	if (1 == (zephir_function_exists_ex(SL("mb_convert_case")) == SUCCESS)) {
 		ZVAL_LONG(&_0$$3, 2);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 190, &input, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 237, &input, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 191, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 238, &input);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 193, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 240, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 

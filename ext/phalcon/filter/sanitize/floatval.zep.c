@@ -16,12 +16,13 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -45,6 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_FloatVal) {
 PHP_METHOD(Phalcon_Filter_Sanitize_FloatVal, __invoke) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input, input_sub, _1, _2;
 	zval *this_ptr = getThis();
@@ -60,10 +62,10 @@ PHP_METHOD(Phalcon_Filter_Sanitize_FloatVal, __invoke) {
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_create_array(&_0, 1, 0 TSRMLS_CC);
+	zephir_create_array(&_0, 1, 0);
 	add_assoc_long_ex(&_0, SL("flags"), 4096);
 	ZVAL_LONG(&_1, 520);
-	ZEPHIR_CALL_FUNCTION(&_2, "filter_var", NULL, 188, input, &_1, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "filter_var", NULL, 235, input, &_1, &_0);
 	zephir_check_call_status();
 	RETURN_MM_DOUBLE(zephir_get_doubleval(&_2));
 

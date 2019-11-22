@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,12 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Controllers;
 
-use Phalcon\Mvc\Controller;
 use Phalcon\Http\Response;
+use Phalcon\Mvc\Controller;
 
-/**
- * Class MicroController
- */
 class MicroController extends Controller
 {
     public function indexAction()
@@ -43,7 +40,7 @@ class MicroController extends Controller
         $this->dispatcher->forward(
             [
                 'controller' => 'micro',
-                'action'     => 'anotherfour'
+                'action'     => 'anotherfour',
             ]
         );
 
@@ -59,11 +56,13 @@ class MicroController extends Controller
     {
         return $this->dispatcher->getParam('param1') + $this->dispatcher->getParam('param2');
     }
-    
+
     public function returnResponseAction()
     {
         $response = new Response();
-        $response->setContent("test");
+
+        $response->setContent('test');
+
         return $response;
     }
 }

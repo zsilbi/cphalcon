@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -15,23 +15,20 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-/**
- * Class ToArrayCest
- */
 class ToArrayCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: toArray()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlBreadcrumbsToArray(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - toArray()');
+
         $breadcrumbs = new Breadcrumbs();
+
         $breadcrumbs
             ->add('Home', '/')
             ->add('Users', '/users')
@@ -43,7 +40,10 @@ class ToArrayCest
             '/users' => 'Users',
             ''       => 'Phalcon Team',
         ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $breadcrumbs->toArray()
+        );
     }
 }

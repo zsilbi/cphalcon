@@ -11,19 +11,18 @@ use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
  * Tests the \Phalcon\Dispatcher and Phalcon\Mvc\Dispatcher "afterDispatchLoop"
  * event.
  *
- * @link          https://docs.phalconphp.com/en/latest/reference/dispatching.html
+ * @link          https://docs.phalcon.io/en/latest/reference/dispatching.html
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalconphp.com
- * @author        Andres Gutierrez <andres@phalconphp.com>
- * @author        Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc\Dispatcher
+ * @link          http://www.phalcon.io
+ * @author        Andres Gutierrez <andres@phalcon.io>
+ * @author        Nikolaos Dimopoulos <nikos@phalcon.io>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
+ * through the world-wide-web, please send an email to license@phalcon.io
  * so that we can send you a copy immediately.
  */
 class DispatcherAfterDispatchLoopCest extends BaseDispatcher
@@ -43,12 +42,16 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
             'dispatch:afterDispatchLoop',
             function ($event, $dispatcher) use (&$forwarded) {
                 if ($forwarded === false) {
-                    $dispatcher->forward(['action' => 'index2']);
+                    $dispatcher->forward(
+                        [
+                            'action' => 'index2',
+                        ]
+                    );
+
                     $forwarded = true;
                 }
             }
-        )
-        ;
+        );
 
         $dispatcher->dispatch();
 
@@ -65,8 +68,11 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
             'afterDispatch',
             'afterDispatchLoop',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -84,10 +90,11 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
             'dispatch:afterDispatchLoop',
             function () use ($dispatcherListener) {
                 $dispatcherListener->trace('afterDispatchLoop: custom return false');
+
                 return false;
             }
-        )
-        ;
+        );
+
         $dispatcher->dispatch();
 
         $expected = [
@@ -104,8 +111,11 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
             'afterDispatchLoop',
             'afterDispatchLoop: custom return false',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -119,20 +129,20 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
     public function testAfterDispatchLoopWithBeforeExceptionReturningFalse(IntegrationTester $I)
     {
         $dispatcher = $this->getDispatcher();
+
         $dispatcher->getEventsManager()->attach(
             'dispatch:afterDispatchLoop',
             function () {
                 throw new Exception('afterDispatch exception occurred');
             }
-        )
-        ;
+        );
+
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () {
                 return false;
             }
-        )
-        ;
+        );
 
         $dispatcher->dispatch();
 
@@ -150,8 +160,11 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
             'afterDispatchLoop',
             'beforeException: afterDispatch exception occurred',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -177,20 +190,21 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () use ($dispatcherListener) {
-                $dispatcherListener->trace('beforeException: custom before exception bubble');
+                $dispatcherListener->trace(
+                    'beforeException: custom before exception bubble'
+                );
+
                 return null;
             }
-        )
-        ;
+        );
 
-        $caughtException = false;
-        try {
-            $dispatcher->dispatch();
-        } catch (Exception $exception) {
-            $caughtException = true;
-        }
+        $I->expectThrowable(
+            Exception::class,
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
 
-        $I->assertTrue($caughtException);
         $expected = [
             'beforeDispatchLoop',
             'beforeDispatch',
@@ -206,8 +220,11 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
             'beforeException: afterDispatchLoop exception occurred',
             'beforeException: custom before exception bubble',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -228,28 +245,32 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
             function () use (&$forwarded) {
                 if ($forwarded === false) {
                     $forwarded = true;
+
                     throw new Exception('afterDispatchLoop exception occurred');
                 }
             }
-        )
-        ;
+        );
+
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function ($event, $dispatcher) use ($dispatcherListener) {
                 $dispatcherListener->trace('beforeException: custom before exception forward');
-                $dispatcher->forward(['action' => 'index2']);
+
+                $dispatcher->forward(
+                    [
+                        'action' => 'index2',
+                    ]
+                );
             }
-        )
-        ;
+        );
 
-        $caughtException = false;
-        try {
-            $dispatcher->dispatch();
-        } catch (Exception $exception) {
-            $caughtException = true;
-        }
+        $I->expectThrowable(
+            Exception::class,
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
 
-        $I->assertTrue($caughtException);
         $expected = [
             'beforeDispatchLoop',
             'beforeDispatch',
@@ -265,7 +286,10 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
             'beforeException: afterDispatchLoop exception occurred',
             'beforeException: custom before exception forward',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 }

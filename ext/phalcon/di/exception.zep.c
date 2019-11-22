@@ -17,14 +17,12 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Di\Exception
- *
  * Exceptions thrown in Phalcon\Di will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_Exception) {

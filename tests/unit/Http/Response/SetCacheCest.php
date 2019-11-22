@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,24 +12,41 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use DateTime;
+use DateTimeZone;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-/**
- * Class SetCacheCest
- */
-class SetCacheCest
+class SetCacheCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: setCache()
+     * Tests setCache
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2015-07-14
      */
-    public function httpResponseSetCache(UnitTester $I)
+    public function testHttpResponseSetCache(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - setCache()');
-        $I->skipTest('Need implementation');
+        $response = $this->getResponseObject();
+
+        $expiry = new DateTime();
+
+        $expiry->setTimezone(
+            new DateTimeZone('UTC')
+        );
+
+        $expiry->modify('+60 minutes');
+
+        $response->setCache(60);
+
+        $actual = $response->getHeaders();
+        $I->assertEquals(
+            $expiry->format('D, d M Y H:i:s') . ' GMT',
+            $actual->get('Expires')
+        );
+        $I->assertEquals(
+            'max-age=3600',
+            $actual->get('Cache-Control')
+        );
     }
 }

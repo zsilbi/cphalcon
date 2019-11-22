@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -15,19 +15,12 @@ namespace Phalcon\Test\Fixtures\Traits;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * Trait TagSetupTrait
- *
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait TagSetupTrait
 {
     /**
      * Constructor
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      */
     public function _before(UnitTester $I)
@@ -54,15 +47,6 @@ trait TagSetupTrait
 
     /**
      * Runs the test for a Tag::$function with $options
-     *
-     * @param UnitTester $I
-     * @param Tag        $tag
-     * @param string     $name
-     * @param string     $function
-     * @param            $options
-     * @param string     $expected
-     * @param bool       $xhtml
-     * @param string     $set
      */
     protected function testFieldParameter(
         UnitTester $I,
@@ -75,10 +59,16 @@ trait TagSetupTrait
         string $set = ''
     ) {
         if ($xhtml && 'textArea' !== $function) {
-            $tag->setDocType(Tag::XHTML10_STRICT);
+            $tag->setDocType(
+                Tag::XHTML10_STRICT
+            );
+
             $expected .= ' />';
         } else {
-            $tag->setDocType(Tag::HTML5);
+            $tag->setDocType(
+                Tag::HTML5
+            );
+
             $expected .= '>';
         }
 
@@ -86,7 +76,9 @@ trait TagSetupTrait
             $tag->{$set}('x_name', 'x_value');
         }
 
-        $actual = $tag->$function($name, $options);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $tag->$function($name, $options)
+        );
     }
 }

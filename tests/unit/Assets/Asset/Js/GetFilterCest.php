@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,47 +13,24 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetFilterCest
- */
 class GetFilterCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: getFilter() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getFilter()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function assetsAssetJsGetFilterJsFilter(UnitTester $I)
+    public function assetsAssetJsGetFilterJs(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getFilter() - js local');
+        $I->wantToTest('Assets\Asset\Js - getFilter()');
+
         $asset = new Js('js/jquery.js');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getFilter() - js remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetFilterRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getFilter() - js remote');
-        $asset = new Js('https://phalcon.ld/js/jquery.js');
-
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 }
