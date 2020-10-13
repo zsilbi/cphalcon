@@ -1078,7 +1078,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     {
         var metaData, writeConnection, primaryKeys, bindDataTypes, columnMap,
             attributeField, primaryKey, bindType, value, schema, source, table,
-            success;
+            success, manager;
         array values, bindTypes, conditions;
 
         let metaData = this->getModelsMetaData(),
@@ -1203,6 +1203,17 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             values,
             bindTypes
         );
+
+        if success {
+            let manager = <ManagerInterface> this->getModelsManager();
+
+            /**
+             * Clear all reusable objects for this model
+             */
+            manager->clearReusableObjects(
+                get_class(this)
+            );
+        }
 
         /**
          * Check if there is virtual foreign keys with cascade action
@@ -2371,7 +2382,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function save() -> bool
     {
         var metaData, schema, writeConnection, readConnection, source, table,
-            identityField, exists, success, dirtyRelated;
+            identityField, exists, success, dirtyRelated, manager;
         bool hasDirtyRelated;
 
         let metaData = this->getModelsMetaData();
@@ -2479,11 +2490,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             );
         }
 
-        /**
-         * Change the dirty state to persistent
-         */
         if success {
-            let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
+            /**
+             * Change the dirty state to persistent
+             */
+            let this->dirtyState = self::DIRTY_STATE_PERSISTENT,
+                manager = <ManagerInterface> this->getModelsManager();
+
+                /**
+                 * Clear all reusable objects for this model
+                 */
+                manager->clearReusableObjects(
+                    get_class(this)
+                );
         }
 
         if hasDirtyRelated {
