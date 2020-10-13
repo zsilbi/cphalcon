@@ -1637,7 +1637,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var records;
 
-        if !fetch records, this->reusable[key] {
+        if !fetch records, this->reusable[modelName][key] {
             return null;
         }
 
@@ -1649,15 +1649,31 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function setReusableRecords(string! modelName, string! key, var records) -> void
     {
-        let this->reusable[key] = records;
+        let this->reusable[modelName][key] = records;
     }
 
     /**
      * Clears the internal reusable list
+     *
+     *```php
+     * $modelsManager->clearReusableObjects();
+     *```
+     *
+     * Clears the internal reusable list for specific model
+     *
+     *```php
+     * $modelsManager->clearReusableObjects(
+     *     RobotsParts::class
+     * );
+     *```
      */
-    public function clearReusableObjects() -> void
+    public function clearReusableObjects(string modelName = null) -> void
     {
-        let this->reusable = [];
+        if null === modelName {
+            let this->reusable = [];
+        } else {
+            let this->reusable[modelName] = [];
+        }
     }
 
     /**
